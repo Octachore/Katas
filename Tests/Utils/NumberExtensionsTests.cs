@@ -1,4 +1,5 @@
-﻿using Core.Utils;
+﻿using System.Linq;
+using Core.Utils;
 using NUnit.Framework;
 
 namespace Tests.Utils
@@ -50,6 +51,35 @@ namespace Tests.Utils
             bool result = potentialDivider.IsDividerOf(anotherInteger);
 
             Assert.That(result, Is.EqualTo(expectedResult));
+        }
+
+        [Test]
+        [Category("Dummy")]
+        [Category("Unitary")]
+        public void NumberExtensions_can_check_if_an_integer_is_a_prime_number()
+        {
+            int[] integers = new int[] { -5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20 };
+            int[] primes = new int[] { 2, 3, 5, 7, 11, 13, 17, 19 };
+            int[] notPrimes = integers.Except(primes).ToArray();
+
+            foreach (int number in primes)
+            {
+                Assert.That(number.IsPrime(), Is.True);
+            }
+            foreach (int number in notPrimes)
+            {
+                Assert.That(number.IsPrime(), Is.False);
+            }
+        }
+        [Test]
+        [Category("Dummy")]
+        [Category("Unitary")]
+        public void NumberExtensions_can_get_prime_numbers()
+        {
+            int[] integers = new int[] { -5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20 };
+            int[] primes = new int[] { 2, 3, 5, 7, 11, 13, 17, 19 };
+
+            Assert.That(integers.GetPrimes(), Is.EquivalentTo(primes));
         }
     }
 }
