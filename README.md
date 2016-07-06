@@ -26,3 +26,12 @@ For instance:
 - **joining**: we could choose to join replacement by printing them one after another, but also to print their sum, product... Let's choose the sum.
 
 **OUTPUT**: 1 0 -1 4 2 -1 0 8 -1 2 0 -1 0 14 1
+
+
+## Sudoku Solver
+
+Solve a sudoku grid :)
+
+## Roman calculator
+
+Handle the addition of two roman numbers, **without converting to int**.

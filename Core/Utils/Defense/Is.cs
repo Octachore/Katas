@@ -11,5 +11,16 @@ namespace Core.Utils.Defense
         /// Gets an <see cref="IntegerSquareConstraint"/>.
         /// </summary>
         public static IntegerSquareConstraint Square { get; } = new IntegerSquareConstraint();
+
+
+        public static IntegerAtLeastConstraint AtLeast(int bound)
+        {
+            return new IntegerAtLeastConstraint(bound);
+        }
+
+        public static IntegerAtMostConstraint AtMost(int bound)
+        {
+            return new IntegerAtMostConstraint(bound);
+        }
     }
 }
