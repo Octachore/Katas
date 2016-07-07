@@ -42,10 +42,14 @@
   <ItemGroup>
     <Compile Include="Katas\FizzBuzz\Constraint.cs" />
     <Compile Include="Katas\FizzBuzz\Replacer.cs" />
+    <Compile Include="Katas\RomanCalculator\Combiner.cs" />
+    <Compile Include="Katas\RomanCalculator\Compacter.cs" />
+    <Compile Include="Katas\RomanCalculator\EnumHelper.cs" />
     <Compile Include="Katas\RomanCalculator\Lexica\Lexer.cs" />
     <Compile Include="Katas\RomanCalculator\Lexica\Token.cs" />
     <Compile Include="Katas\RomanCalculator\Lexica\TokenType.cs" />
     <Compile Include="Katas\RomanCalculator\RomanCalculator.cs" />
+    <Compile Include="Katas\RomanCalculator\TokenHelper.cs" />
     <Compile Include="Katas\SudokuSolver\SudokuCell.cs" />
     <Compile Include="Katas\SudokuSolver\SudokuGrid.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
