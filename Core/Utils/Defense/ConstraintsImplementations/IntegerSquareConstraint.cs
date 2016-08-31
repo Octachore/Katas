@@ -7,7 +7,7 @@ namespace Core.Utils.Defense.ConstraintsImplementations
     /// </summary>
     internal class IntegerSquareConstraint : IGuardConstraint<int>
     {
-        int? _value = null;
+        private readonly int? _value = null;
 
         /// <summary>
         /// Gets the inner exception in case of failure.

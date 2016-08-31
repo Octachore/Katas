@@ -1,9 +1,9 @@
-﻿using System;
+﻿using Core.Utils;
+using Core.Utils.Defense;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Core.Utils;
-using Core.Utils.Defense;
 
 namespace Core.Katas.SudokuSolver
 {
@@ -27,7 +27,7 @@ namespace Core.Katas.SudokuSolver
         /// <summary>
         /// Initializes a new instance of the <see cref="SudokuGrid"/> class. All the cells are "empty" (their value is <c>null</c>).
         /// </summary>
-        /// <param name="size">The values grid. Must be a square.</param>
+        /// <param name="grid">The values grid. Must be a square.</param>
         public SudokuGrid(int[,] grid)
         {
             Guard.That(grid.Length, Is.Square);
@@ -75,10 +75,8 @@ namespace Core.Katas.SudokuSolver
         /// <returns><c>true</c> if the specified object is equal to the current object; otherwise, <c>false</c>.</returns>
         public override bool Equals(object obj)
         {
-            SudokuGrid grid = obj as SudokuGrid;
-            if (grid == null) return false;
-
-            return Comparer.AreSequenceEqual<SudokuCell>(_cells, grid._cells);
+            var grid = obj as SudokuGrid;
+            return (grid != null) && Comparer.AreSequenceEqual(_cells, grid._cells);
         }
 
         /// <summary>
@@ -125,7 +123,7 @@ namespace Core.Katas.SudokuSolver
 
             IEnumerable<int> possibilities = freeInSquare.Intersect(freeInLine).Intersect(freeInColumn);
 
-            if (possibilities.Count() == 0)
+            if (!possibilities.Any())
                 throw new InvalidOperationException("Not solvable");
 
             if (possibilities.Count() == 1) cell.Value = possibilities.First();

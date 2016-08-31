@@ -7,8 +7,8 @@ namespace Core.Utils.Defense.ConstraintsImplementations
     /// </summary>
     internal class IntegerAtLeastConstraint : IGuardConstraint<int>
     {
-        int? _value = null;
-        private int _bound;
+        private int? _value;
+        private readonly int _bound;
 
         /// <summary>
         /// Gets the inner exception in case of failure.

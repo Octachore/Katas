@@ -39,7 +39,6 @@ namespace Core.Katas.RomanCalculator.Lexica
                 default:
                     throw new ArgumentException($"Unrecognized token: {symbol}.");
             }
-
         }
     }
 }

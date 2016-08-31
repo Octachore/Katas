@@ -1,7 +1,7 @@
-﻿using System;
+﻿using Core.Katas.RomanCalculator.Lexica;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using Core.Katas.RomanCalculator.Lexica;
 
 namespace Core.Katas.RomanCalculator
 {
@@ -9,20 +9,17 @@ namespace Core.Katas.RomanCalculator
     {
         public static void Compact(ref IEnumerable<Token> tokens)
         {
-            if (!tokens.HasMoreThan(1)) return;
+            IEnumerable<Token> enumerable = tokens as Token[] ?? tokens.ToArray();
+
+            if (!enumerable.HasMoreThan(1)) return;
 
             var compacted = new List<Token>();
             var buffer = new Queue<Token>(4);
-            foreach (Token token in tokens)
+            foreach (Token token in enumerable)
             {
                 buffer.Enqueue(token);
 
-                if (buffer.HasFourIdentiqualTokens())
-                {
-                    compacted.AddRange(SquashTokens(buffer));
-                    buffer.Clear();
-                }
-                else if (buffer.HasMoreThan(3)) compacted.Add(buffer.Dequeue());
+                compacted.AddRange(buffer.SquashIfPossible());
             }
 
             compacted.AddRange(buffer);
@@ -32,20 +29,17 @@ namespace Core.Katas.RomanCalculator
 
         public static void Uncompact(ref IEnumerable<Token> tokens)
         {
-            if (!tokens.HasMoreThan(1)) return;
+            IEnumerable<Token> enumerable = tokens as Token[] ?? tokens.ToArray();
+
+            if (!enumerable.HasMoreThan(1)) return;
 
             var uncompacted = new List<Token>();
             var buffer = new Queue<Token>(2);
-            foreach (Token token in tokens)
+            foreach (Token token in enumerable)
             {
                 buffer.Enqueue(token);
 
-                if (buffer.IsSubstractiveForm())
-                {
-                    uncompacted.AddRange(TransformToAdditiveForm(buffer));
-                    buffer.Clear();
-                }
-                else if (buffer.HasMoreThan(1)) uncompacted.Add(buffer.Dequeue());
+                uncompacted.AddRange(buffer.InAdditiveForm());
             }
 
             uncompacted.AddRange(buffer);
@@ -53,7 +47,39 @@ namespace Core.Katas.RomanCalculator
             tokens = uncompacted.Where(t => t != null);
         }
 
-        private static IEnumerable<Token> SquashTokens(Queue<Token> buffer)
+        private static IEnumerable<Token> InAdditiveForm(this Queue<Token> buffer)
+        {
+            if (buffer.IsSubstractiveForm())
+            {
+                foreach (Token token in TransformToAdditiveForm(buffer))
+                {
+                    yield return token;
+                }
+                buffer.Clear();
+            }
+            else if (buffer.HasMoreThan(1))
+            {
+                yield return buffer.Dequeue();
+            }
+        }
+
+        private static IEnumerable<Token> SquashIfPossible(this Queue<Token> buffer)
+        {
+            if (buffer.HasFourIdentiqualTokens())
+            {
+                foreach (Token token in SquashTokens(buffer))
+                {
+                    yield return token;
+                }
+                buffer.Clear();
+            }
+            else if (buffer.HasMoreThan(3))
+            {
+                yield return buffer.Dequeue();
+            }
+        }
+
+        private static IEnumerable<Token> SquashTokens(IEnumerable<Token> buffer)
         {
             //Guard.That(buffer.HasFourIdentiqualTokens(), Is.True);
 

@@ -7,11 +7,8 @@
             Type = type;
         }
 
-        public TokenType Type { get; private set; }
+        public TokenType Type { get; }
 
-        public override string ToString()
-        {
-            return Type.ToString();
-        }
+        public override string ToString() => Type.ToString();
     }
 }

@@ -11,8 +11,8 @@ namespace Core.Katas.FizzBuzz
     /// <typeparam name="U">The type of the items in the output enumeration.</typeparam>
     internal class Replacer<T, U>
     {
-        private Constraint<T, U>[] _constraints;
-        private Func<IEnumerable<U>, U> _joiner;
+        private readonly Constraint<T, U>[] _constraints;
+        private readonly Func<IEnumerable<U>, U> _joiner;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Replacer{T, U}"/> class.
@@ -34,12 +34,8 @@ namespace Core.Katas.FizzBuzz
         {
             foreach (T item in input)
             {
-                List<U> replacements = new List<U>();
-                foreach (Constraint<T, U> constraint in _constraints)
-                {
-                    if (constraint.Evaluate(item)) replacements.Add(constraint.Replacement);
-                }
-                if (replacements.Any()) yield return _joiner(replacements);
+                List<U> replacements = (from constraint in _constraints where constraint.Evaluate(item) select constraint.Replacement).ToList();
+                if (replacements.Count > 0) yield return _joiner(replacements);
                 else yield return (U)Convert.ChangeType(item, typeof(U));
             }
         }

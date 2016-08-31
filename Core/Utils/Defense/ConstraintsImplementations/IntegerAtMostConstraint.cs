@@ -7,13 +7,14 @@ namespace Core.Utils.Defense.ConstraintsImplementations
     /// </summary>
     internal class IntegerAtMostConstraint : IGuardConstraint<int>
     {
-        int? _value = null;
-        private int _bound;
+        private readonly int _bound;
 
         /// <summary>
         /// Gets the inner exception in case of failure.
         /// </summary>
-        public Exception InnerException => new ArgumentException($"Integer {_value} is more than {_bound}.");
+        public Exception InnerException => new ArgumentException($"Integer {Value} is more than {_bound}.");
+
+        public int? Value { get; set; }
 
         public IntegerAtMostConstraint(int bound)
         {
@@ -27,8 +28,8 @@ namespace Core.Utils.Defense.ConstraintsImplementations
         /// <returns>The evaluation result.</returns>
         public bool Pass(int argument)
         {
-            _value = argument;
-            return _value <= _bound;
+            Value = argument;
+            return Value <= _bound;
         }
     }
 }
