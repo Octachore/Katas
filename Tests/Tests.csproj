@@ -45,6 +45,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Katas\FizzBuzzTests.cs" />
+    <Compile Include="Katas\PaintFillerTests.cs" />
     <Compile Include="Katas\RomanCalculatorTests.cs" />
     <Compile Include="Katas\SudokuSolverTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
