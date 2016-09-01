@@ -40,6 +40,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Katas\Draughts\Board.cs" />
+    <Compile Include="Katas\Draughts\Color.cs" />
+    <Compile Include="Katas\Draughts\Piece.cs" />
+    <Compile Include="Katas\Draughts\Square.cs" />
     <Compile Include="Katas\FizzBuzz\Constraint.cs" />
     <Compile Include="Katas\FizzBuzz\Replacer.cs" />
     <Compile Include="Katas\PaintFiller\Filler.cs" />

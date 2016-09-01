@@ -44,6 +44,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Katas\DraughtsTests.cs" />
     <Compile Include="Katas\FizzBuzzTests.cs" />
     <Compile Include="Katas\PaintFillerTests.cs" />
     <Compile Include="Katas\RomanCalculatorTests.cs" />
