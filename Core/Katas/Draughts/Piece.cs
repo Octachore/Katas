@@ -17,5 +17,7 @@
             Square = new Square(x, y);
             Color = color;
         }
+
+        public override string ToString() => $"{X}|{Y} {Color}";
     }
 }

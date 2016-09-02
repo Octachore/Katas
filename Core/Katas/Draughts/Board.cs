@@ -18,7 +18,7 @@ namespace Core.Katas.Draughts
             if (CanMove(piece, x2, y)) yield return new Square(x2, y);
         }
 
-        private bool CanMove(Piece piece, int x, int y) => x.In(0, 9) && Pieces.All(p => p?.Square != new Square(x, y));
+        private bool CanMove(Piece piece, int x, int y) => x.In(0, 9) && y.In(0, 9) && Pieces.All(p => p?.Square != new Square(x, y));
 
         public void Add(Piece pawn) => Pieces.Add(pawn);
 
