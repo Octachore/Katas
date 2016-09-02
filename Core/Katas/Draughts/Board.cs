@@ -1,17 +1,37 @@
 ﻿using Core.Utils;
+using Core.Utils.Defense;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace Core.Katas.Draughts
 {
+    /// <summary>
+    /// Represents a draughts board. It is, basically, a 10 x 10 grid with 0 or 1 pawn on each square.
+    /// </summary>
     public class Board
     {
-        public List<Piece> Pieces { get; set; } = new List<Piece>();
+        /// <summary>
+        /// Gets the pieces on the board.
+        /// </summary>
+        public List<Piece> Pieces { get; } = new List<Piece>();
 
-        public void Add(Piece pawn) => Pieces.Add(pawn);
+        /// <summary>
+        /// Adds a piece to the board.
+        /// </summary>
+        /// <param name="piece">The piece to add.</param>
+        public void Add(Piece piece) => Pieces.Add(piece);
 
-        public void Add(IEnumerable<Piece> pawns) => Pieces.AddRange(pawns);
+        /// <summary>
+        /// Add pieces to the board.
+        /// </summary>
+        /// <param name="pieces">The pieces to add.</param>
+        public void Add(IEnumerable<Piece> pieces) => Pieces.AddRange(pieces);
 
+        /// <summary>
+        /// Gets the possibles moves (without taking an enemy piece) for a specified piece.
+        /// </summary>
+        /// <param name="piece">The piece to consider.</param>
+        /// <returns>The possible destinations.</returns>
         public IEnumerable<Square> GetPossibleMoves(Piece piece)
         {
             int y = piece.Color == Color.Black ? piece.Y - 1 : piece.Y + 1;
@@ -22,9 +42,14 @@ namespace Core.Katas.Draughts
             if (IsFree(x2, y)) yield return new Square(x2, y);
         }
 
+        /// <summary>
+        /// Gets the possible takings for a specified piece.
+        /// </summary>
+        /// <param name="piece">The piece to consider.</param>
+        /// <returns>The position of the pieces the considered piece can take.</returns>
         public IEnumerable<Square> GetPossibleTakings(Piece piece)
         {
-            Color enemyColor = piece.Color == Color.Black ? Color.White : Color.Black;
+            Color enemyColor = ~piece.Color;
 
             int enemyY = piece.Color == Color.Black ? piece.Y - 1 : piece.Y + 1;
             int enemyX1 = piece.X - 1;
@@ -34,26 +59,34 @@ namespace Core.Katas.Draughts
             int destinationX1 = enemyX1 - 1;
             int destinationX2 = enemyX2 + 1;
 
-            if (ContainsPawn(enemyX1, enemyY, enemyColor) && IsFree(destinationX1, destinationY))
+            if (ContainsPiece(enemyX1, enemyY, enemyColor) && IsFree(destinationX1, destinationY))
             {
                 ////TakePiece(destinationX1, destinationY);
-                yield return new Square(destinationX1, destinationY);
+                yield return new Square(enemyX1, enemyY);
             }
 
-            if (ContainsPawn(enemyX2, enemyY, enemyColor) && IsFree(destinationX2, destinationY))
+            if (ContainsPiece(enemyX2, enemyY, enemyColor) && IsFree(destinationX2, destinationY))
             {
                 ////TakePiece(destinationX2, destinationY);
-                yield return new Square(destinationX2, destinationY);
+                yield return new Square(enemyX2, enemyY);
             }
         }
 
-        private void TakePiece(int x, int y)
+        public void Take(Piece attacker, Piece target) => Take(attacker, target.X, target.Y);
+
+        public void Take(Piece attacker, int x, int y)
         {
-            Piece piece = Pieces.SingleOrDefault(p => p.Square == new Square(x, y));
-            if (piece != null) Pieces.Remove(piece);
+            Guard.Requires(() => ContainsPiece(x, y, ~attacker.Color));
+            Piece target = Pieces.SingleOrDefault(p => p.Square == new Square(x, y));
+            Pieces.Remove(target);
+
+            int destinationX = attacker.X + (target.X - attacker.X) * 2;
+            int destinationY = attacker.Y + (target.Y - attacker.Y) * 2;
+
+            attacker.Square = new Square(destinationX, destinationY);
         }
 
-        private bool ContainsPawn(int x, int y, Color? color = null) => x.In(0, 9) && y.In(0, 9) && Pieces.Where(p => p.Square == new Square(x, y)).Any(p => (color == null) || (p.Color == color.Value));
+        private bool ContainsPiece(int x, int y, Color? color = null) => x.In(0, 9) && y.In(0, 9) && Pieces.Where(p => p.Square == new Square(x, y)).Any(p => (color == null) || (p.Color == color.Value));
 
         private bool IsFree(int x, int y) => x.In(0, 9) && y.In(0, 9) && Pieces.All(p => p?.Square != new Square(x, y));
     }
