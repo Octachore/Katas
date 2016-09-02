@@ -16,5 +16,10 @@ namespace Core.Utils.Defense
         {
             if (!condition()) throw new GuardException();
         }
+
+        public static void Requires<T>(Func<bool> condition) where T : Exception, new()
+        {
+            if (!condition()) throw new T();
+        }
     }
 }

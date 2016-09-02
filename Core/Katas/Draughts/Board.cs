@@ -1,4 +1,5 @@
-﻿using Core.Utils;
+﻿using Core.Katas.Draughts.Exceptions;
+using Core.Utils;
 using Core.Utils.Defense;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,6 +15,16 @@ namespace Core.Katas.Draughts
         /// Gets the pieces on the board.
         /// </summary>
         public List<Piece> Pieces { get; } = new List<Piece>();
+
+        public Board()
+        {
+
+        }
+
+        public Board(params Piece[] pieces)
+        {
+            Pieces.AddRange(pieces);
+        }
 
         /// <summary>
         /// Adds a piece to the board.
@@ -76,13 +87,16 @@ namespace Core.Katas.Draughts
 
         public void Take(Piece attacker, int x, int y)
         {
-            Guard.Requires(() => ContainsPiece(x, y, ~attacker.Color));
-            Piece target = Pieces.SingleOrDefault(p => p.Square == new Square(x, y));
-            Pieces.Remove(target);
+            Guard.Requires<NoEnemyException>(() => ContainsPiece(x, y));
+            Guard.Requires<FriendlyAttackException>(() => ContainsPiece(x, y, ~attacker.Color));
 
+            Piece target = Pieces.SingleOrDefault(p => p.Square == new Square(x, y));
             int destinationX = attacker.X + (target.X - attacker.X) * 2;
             int destinationY = attacker.Y + (target.Y - attacker.Y) * 2;
 
+            Guard.Requires<OccupiedSquareException>(() => IsFree(destinationX, destinationY));
+
+            Pieces.Remove(target);
             attacker.Square = new Square(destinationX, destinationY);
         }
 

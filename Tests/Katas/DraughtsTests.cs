@@ -1,4 +1,5 @@
 ﻿using Core.Katas.Draughts;
+using Core.Katas.Draughts.Exceptions;
 using NUnit.Framework;
 
 namespace Tests.Katas
@@ -35,17 +36,17 @@ namespace Tests.Katas
             _pb3 = new Piece(6, 6, Color.Black);
             _pb4 = new Piece(4, 4, Color.Black);
 
-            var whitePawns = new[] { _pw1, _pw2, _pw3, _pw4, _pw5 };
-            var blackPawns = new[] { _pb1, _pb2, _pb3, _pb4 };
+            var whitePieces = new[] { _pw1, _pw2, _pw3, _pw4, _pw5 };
+            var blackPieces = new[] { _pb1, _pb2, _pb3, _pb4 };
 
-            _board.Add(whitePawns);
-            _board.Add(blackPawns);
+            _board.Add(whitePieces);
+            _board.Add(blackPieces);
 
             _initialPiecesCount = _board.Pieces.Count;
         }
 
         [Test]
-        public void A_Pawn_Can_Detremine_Its_Possible_Moves_Without_Taking_On_A_Board()
+        public void A_Piece_Can_Detremine_Its_Possible_Moves_Without_Taking_On_A_Board()
         {
             var pw1Mouves = new[] { new Square(0, 2) };
             var pw2Mouves = new Square[0];
@@ -69,7 +70,7 @@ namespace Tests.Katas
         }
 
         [Test]
-        public void A_Pawn_Can_Determine_Its_Possible_Takings()
+        public void A_Piece_Can_Determine_Its_Possible_Takings()
         {
             var pw1Takings = new[] { new Square(2, 2) };
             var pw2Takings = new Square[0];
@@ -93,7 +94,7 @@ namespace Tests.Katas
         }
 
         [Test]
-        public void A_Pawn_Can_Take_An_Enemy()
+        public void A_Piece_Can_Take_An_Enemy()
         {
             _board.Take(_pw1, _pb1);
 
@@ -117,6 +118,36 @@ namespace Tests.Katas
             Assert.That(_board.Pieces, Does.Not.Contains(_pw1));
             Assert.That(_pb1.X, Is.EqualTo(0));
             Assert.That(_pb1.Y, Is.EqualTo(0));
+        }
+
+        [Test]
+        public void A_Piece_Can_Not_Take_A_Friend()
+        {
+            _pw1 = new Piece(0, 0, Color.White);
+            _pw2 = new Piece(1, 1, Color.White);
+            _board = new Board(_pw1, _pw2);
+
+            Assert.Throws<FriendlyAttackException>(() => _board.Take(_pw1, _pw2));
+        }
+
+        [Test]
+        public void A_Piece_Can_Not_Take_If_No_Piece_To_Take()
+        {
+            _pw1 = new Piece(0, 0, Color.White);
+            _board = new Board(_pw1);
+
+            Assert.Throws<NoEnemyException>(() => _board.Take(_pw1, 1, 1));
+        }
+
+        [Test]
+        public void A_Piece_Can_Not_Take_If_Destination_Not_Free()
+        {
+            _pw1 = new Piece(0, 0, Color.White);
+            _pb1 = new Piece(1, 1, Color.Black);
+            _pb2 = new Piece(2, 2, Color.Black);
+            _board = new Board(_pw1, _pb1, _pb2);
+
+            Assert.Throws<OccupiedSquareException>(() => _board.Take(_pw1, _pb1));
         }
     }
 }
