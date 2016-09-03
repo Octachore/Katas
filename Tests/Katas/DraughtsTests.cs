@@ -134,9 +134,12 @@ namespace Tests.Katas
         public void A_Piece_Can_Not_Take_If_No_Piece_To_Take()
         {
             _pw1 = new Piece(0, 0, Color.White);
-            _board = new Board(_pw1);
+            _pb1 = new Piece(1, 1, Color.Black);
+            _pb2 = new Piece(9, 9, Color.Black);
+            _board = new Board(_pw1, _pb2);
 
-            Assert.Throws<NoEnemyException>(() => _board.Take(_pw1, 1, 1));
+            Assert.Throws<PieceNotOnBoardException>(() => _board.Take(_pw1, _pb1));
+            Assert.Throws<InvalidMoveException>(() => _board.Take(_pw1, _pb2));
         }
 
         [Test]

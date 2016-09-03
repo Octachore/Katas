@@ -21,5 +21,15 @@ namespace Core.Utils.Defense
         {
             if (!condition()) throw new T();
         }
+
+        public static void Requires(bool condition)
+        {
+            Requires(() => condition);
+        }
+
+        public static void Requires<T>(bool condition) where T : Exception, new()
+        {
+            Requires<T>(() => condition);
+        }
     }
 }

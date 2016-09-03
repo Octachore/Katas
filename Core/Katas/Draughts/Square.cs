@@ -1,6 +1,6 @@
 ﻿namespace Core.Katas.Draughts
 {
-    public class Square
+    public class Square : IPosition
     {
         public int X { get; }
 

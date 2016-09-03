@@ -41,10 +41,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Katas\Draughts\Board.cs" />
+    <Compile Include="Katas\Draughts\BoardHelper.cs" />
     <Compile Include="Katas\Draughts\Color.cs" />
     <Compile Include="Katas\Draughts\Exceptions\FriendlyAttackException.cs" />
+    <Compile Include="Katas\Draughts\Exceptions\InvalidMoveException.cs" />
     <Compile Include="Katas\Draughts\Exceptions\NoEnemyException.cs" />
     <Compile Include="Katas\Draughts\Exceptions\OccupiedSquareException.cs" />
+    <Compile Include="Katas\Draughts\Exceptions\PieceNotOnBoardException.cs" />
+    <Compile Include="Katas\Draughts\IPosition.cs" />
     <Compile Include="Katas\Draughts\Piece.cs" />
     <Compile Include="Katas\Draughts\Square.cs" />
     <Compile Include="Katas\FizzBuzz\Constraint.cs" />
