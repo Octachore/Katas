@@ -48,7 +48,7 @@ namespace Core.Katas.Draughts
         /// </summary>
         /// <param name="piece">The piece to consider.</param>
         /// <returns>The position of the pieces the considered piece can take.</returns>
-        public IEnumerable<Square> GetPossibleTakings(Piece piece) => piece.ForwardSquares().Where(square => SquareContainsPiece(square, ~piece.Color) && IsFree(piece.Over(square)));
+        public IEnumerable<Square> GetPossibleTakings(Piece piece) => piece.ForwardSquares().Union(piece.BackwardSquares()).Where(square => SquareContainsPiece(square, ~piece.Color) && IsFree(piece.Over(square)));
 
         public void Take(Piece attacker, Piece target)
         {

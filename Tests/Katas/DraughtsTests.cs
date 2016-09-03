@@ -74,13 +74,13 @@ namespace Tests.Katas
         {
             var pw1Takings = new[] { new Square(2, 2) };
             var pw2Takings = new Square[0];
-            var pw3Takings = new Square[0];
+            var pw3Takings = new[] { new Square(4, 4) };
             var pw4Takings = new Square[0];
 
             var pb1Takings = new[] { new Square(1, 1) };
             var pb2Takings = new Square[0];
             var pb3Takings = new[] { new Square(7, 5) };
-            var pb4Takings = new Square[0];
+            var pb4Takings = new[] { new Square(3, 5) };
 
             Assert.That(_board.GetPossibleTakings(_pw1), Is.EquivalentTo(pw1Takings));
             Assert.That(_board.GetPossibleTakings(_pw2), Is.EquivalentTo(pw2Takings));
