@@ -22,23 +22,23 @@ namespace Tests.Katas.Draughts
         }
 
         [Test]
-        [TestCase(0, 0, 0)]
-        [TestCase(1, 0, 1)]
-        [TestCase(2, 0, 2)]
-        [TestCase(5, 0, 5)]
-        [TestCase(0, 1, 10)]
-        [TestCase(0, 2, 20)]
-        [TestCase(0, 5, 50)]
-        [TestCase(1, 5, 51)]
-        [TestCase(2, 5, 52)]
-        [TestCase(5, 5, 55)]
+        [TestCase(0, 0, 108)]
+        [TestCase(1, 0, 109)]
+        [TestCase(2, 0, 110)]
+        [TestCase(5, 0, 113)]
+        [TestCase(0, 1, 96)]
+        [TestCase(0, 2, 84)]
+        [TestCase(0, 5, 48)]
+        [TestCase(1, 5, 49)]
+        [TestCase(2, 5, 50)]
+        [TestCase(5, 5, 53)]
         public void GetPositionInString_Gets_The_position_Of_The_Character_Representing_A_Position_In_The_Board(int x, int y, int expectedPosition)
         {
             var board = new Board();
 
             int position = BoardHelper.GetPositionInString(x, y);
 
-            Assert.That(position, Is.EqualTo(expectedPosition + Environment.NewLine.Length * y));
+            Assert.That(position, Is.EqualTo(expectedPosition));
         }
 
         [Test]

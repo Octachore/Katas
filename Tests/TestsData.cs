@@ -42,7 +42,7 @@ namespace Tests
 
                             _board2 = new Board();
                             _board2.Add(new Piece(0, 0, Color.White));
-                            _board2Representation = "W.........\r\n..........\r\n..........\r\n..........\r\n..........\r\n..........\r\n..........\r\n..........\r\n..........\r\n..........\r\n";
+                            _board2Representation = "..........\r\n..........\r\n..........\r\n..........\r\n..........\r\n..........\r\n..........\r\n..........\r\n..........\r\nW.........\r\n";
 
                             _board3 = new Board();
                             var pieces = new Piece[]
@@ -61,7 +61,7 @@ namespace Tests
                                              new Piece(0, 3, Color.Black),
                                          };
                             _board3.Add(pieces);
-                            _board3Representation = "W........W\r\n..........\r\n.........B\r\nB....B...B\r\nB...W.....\r\n..........\r\n........W.\r\n..W....B..\r\n..........\r\n...W......\r\n";
+                            _board3Representation = "...W......\r\n..........\r\n..W....B..\r\n........W.\r\n..........\r\nB...W.....\r\nB....B...B\r\n.........B\r\n..........\r\nW........W\r\n";
 
                         }
                     }
