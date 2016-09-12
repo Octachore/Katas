@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -26,5 +27,8 @@ namespace Core.Katas.Draughts.Helpers
 
             return builder.ToString();
         }
+
+        public static List<Piece> WhitePieces(this Board board) => board.Pieces.Where(p => p.Color == Color.White).ToList();
+        public static List<Piece> BlackPieces(this Board board) => board.Pieces.Where(p => p.Color == Color.Black).ToList();
     }
 }

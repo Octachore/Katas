@@ -93,10 +93,6 @@ namespace Tests.Katas.Draughts
             Assert.That(_board.GetPossibleTakings(_pb2), Is.EquivalentTo(pb2Takings));
             Assert.That(_board.GetPossibleTakings(_pb3), Is.EquivalentTo(pb3Takings));
             Assert.That(_board.GetPossibleTakings(_pb4), Is.EquivalentTo(pb4Takings));
-
-            // dummy
-
-            string representation = _board.Print("_");
         }
 
         [Test]

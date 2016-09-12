@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.25123.0
+VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core", "Core\Core.csproj", "{E85F458A-1BD8-46DF-A9E6-2856F9A9F02A}"
 EndProject
@@ -13,6 +13,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleApplication", "ConsoleApplication\ConsoleApplication.csproj", "{24C43ECE-886E-4834-9739-464437694109}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "UI", "UI", "{CF1E2ED9-B09B-49F0-AD8E-30E9CE7D5C7D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DraughtsPlayer", "DraughtsPlayer\DraughtsPlayer.csproj", "{56A3A257-A192-4D81-9798-D7BD15931A8D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -32,8 +36,15 @@ Global
 		{24C43ECE-886E-4834-9739-464437694109}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{24C43ECE-886E-4834-9739-464437694109}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{24C43ECE-886E-4834-9739-464437694109}.Release|Any CPU.Build.0 = Release|Any CPU
+		{56A3A257-A192-4D81-9798-D7BD15931A8D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{56A3A257-A192-4D81-9798-D7BD15931A8D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{56A3A257-A192-4D81-9798-D7BD15931A8D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{56A3A257-A192-4D81-9798-D7BD15931A8D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{56A3A257-A192-4D81-9798-D7BD15931A8D} = {CF1E2ED9-B09B-49F0-AD8E-30E9CE7D5C7D}
 	EndGlobalSection
 EndGlobal

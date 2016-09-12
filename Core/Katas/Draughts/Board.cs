@@ -14,22 +14,21 @@ namespace Core.Katas.Draughts
     {
         public const int DEFAULT_SIZE = 10;
 
-        public Board()
-        {
-            Bot = new Bot(this);
-        }
-
         public Bot Bot { get; }
-
-        public Board(params Piece[] pieces) : this()
-        {
-            Pieces.AddRange(pieces);
-        }
 
         /// <summary>
         /// Gets the pieces on the board.
         /// </summary>
         public List<Piece> Pieces { get; } = new List<Piece>();
+
+        public Board()
+        {
+            Bot = new Bot(this);
+        }
+        public Board(params Piece[] pieces) : this()
+        {
+            Pieces.AddRange(pieces);
+        }
         /// <summary>
         /// Adds a piece to the board.
         /// </summary>
@@ -42,12 +41,16 @@ namespace Core.Katas.Draughts
         /// <param name="pieces">The pieces to add.</param>
         public void Add(IEnumerable<Piece> pieces) => Pieces.AddRange(pieces);
 
+        public Board Clone() => MemberwiseClone() as Board;
+
         /// <summary>
         /// Gets the possibles moves (without taking an enemy piece) for a specified piece.
         /// </summary>
         /// <param name="piece">The piece to consider.</param>
         /// <returns>The possible destinations.</returns>
         public IEnumerable<Square> GetPossibleMoves(Piece piece) => piece.ForwardSquares().Where(IsFree);
+
+        public IEnumerable<Square> GetPossibleDestinations(Piece piece) => GetPossibleMoves(piece).Union(GetPossibleTakings(piece).Select(piece.Over));
 
         /// <summary>
         /// Gets the possible takings for a specified piece.
@@ -56,7 +59,7 @@ namespace Core.Katas.Draughts
         /// <returns>The position of the pieces the considered piece can take.</returns>
         public IEnumerable<Square> GetPossibleTakings(Piece piece) => piece.ForwardSquares().Union(piece.BackwardSquares()).Where(square => SquareContainsPiece(square, ~piece.Color) && IsFree(piece.Over(square)));
 
-        public void Take(Piece attacker, Piece target)
+        public void Take(Piece attacker, IPosition target)
         {
             Guard.Requires<InvalidMoveException>(attacker.AdjacentDiagonalTo(target));
             Guard.Requires<PieceNotOnBoardException>(Pieces.Contains(attacker));
@@ -68,12 +71,12 @@ namespace Core.Katas.Draughts
             attacker.Square = attacker.Over(target);
         }
 
-        private bool SquareContainsPiece(IPosition square, Color? color = null) => SquareContainsPiece(square.X, square.Y, color);
-
-        private bool SquareContainsPiece(int x, int y, Color? color = null) => x.In(0, DEFAULT_SIZE - 1) && y.In(0, DEFAULT_SIZE - 1) && Pieces.Where(p => p.Square == new Square(x, y)).Any(p => (color == null) || (p.Color == color.Value));
-
         private bool IsFree(Square square) => IsFree(square.X, square.Y);
 
         private bool IsFree(int x, int y) => x.In(0, DEFAULT_SIZE - 1) && y.In(0, DEFAULT_SIZE - 1) && Pieces.All(p => p?.Square != new Square(x, y));
+
+        private bool SquareContainsPiece(IPosition square, Color? color = null) => SquareContainsPiece(square.X, square.Y, color);
+
+        private bool SquareContainsPiece(int x, int y, Color? color = null) => x.In(0, DEFAULT_SIZE - 1) && y.In(0, DEFAULT_SIZE - 1) && Pieces.Where(p => p.Square == new Square(x, y)).Any(p => (color == null) || (p.Color == color.Value));
     }
 }
