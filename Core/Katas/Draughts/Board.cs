@@ -3,6 +3,7 @@ using Core.Utils;
 using Core.Utils.Defense;
 using System.Collections.Generic;
 using System.Linq;
+using Core.Katas.Draughts.Helpers;
 
 namespace Core.Katas.Draughts
 {
@@ -11,11 +12,16 @@ namespace Core.Katas.Draughts
     /// </summary>
     public class Board
     {
+        public const int DEFAULT_SIZE = 10;
+
         public Board()
         {
+            Bot = new Bot(this);
         }
 
-        public Board(params Piece[] pieces)
+        public Bot Bot { get; }
+
+        public Board(params Piece[] pieces) : this()
         {
             Pieces.AddRange(pieces);
         }
@@ -58,16 +64,16 @@ namespace Core.Katas.Draughts
             Guard.Requires<FriendlyAttackException>(SquareContainsPiece(target, ~attacker.Color));
             Guard.Requires<OccupiedSquareException>(() => IsFree(attacker.Over(target)));
 
-            Pieces.Remove(target);
+            Pieces.RemoveAll(p => (p.X == target.X) && (p.Y == target.Y));
             attacker.Square = attacker.Over(target);
         }
 
         private bool SquareContainsPiece(IPosition square, Color? color = null) => SquareContainsPiece(square.X, square.Y, color);
 
-        private bool SquareContainsPiece(int x, int y, Color? color = null) => x.In(0, 9) && y.In(0, 9) && Pieces.Where(p => p.Square == new Square(x, y)).Any(p => (color == null) || (p.Color == color.Value));
+        private bool SquareContainsPiece(int x, int y, Color? color = null) => x.In(0, DEFAULT_SIZE - 1) && y.In(0, DEFAULT_SIZE - 1) && Pieces.Where(p => p.Square == new Square(x, y)).Any(p => (color == null) || (p.Color == color.Value));
 
         private bool IsFree(Square square) => IsFree(square.X, square.Y);
 
-        private bool IsFree(int x, int y) => x.In(0, 9) && y.In(0, 9) && Pieces.All(p => p?.Square != new Square(x, y));
+        private bool IsFree(int x, int y) => x.In(0, DEFAULT_SIZE - 1) && y.In(0, DEFAULT_SIZE - 1) && Pieces.All(p => p?.Square != new Square(x, y));
     }
 }

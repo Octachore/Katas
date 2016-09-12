@@ -1,8 +1,10 @@
-﻿using Core.Katas.Draughts;
+﻿using System;
+using Core.Katas.Draughts;
 using Core.Katas.Draughts.Exceptions;
+using Core.Katas.Draughts.Helpers;
 using NUnit.Framework;
 
-namespace Tests.Katas
+namespace Tests.Katas.Draughts
 {
     public class DraughtsTests
     {
@@ -91,6 +93,10 @@ namespace Tests.Katas
             Assert.That(_board.GetPossibleTakings(_pb2), Is.EquivalentTo(pb2Takings));
             Assert.That(_board.GetPossibleTakings(_pb3), Is.EquivalentTo(pb3Takings));
             Assert.That(_board.GetPossibleTakings(_pb4), Is.EquivalentTo(pb4Takings));
+
+            // dummy
+
+            string representation = _board.Print("_");
         }
 
         [Test]
@@ -151,6 +157,13 @@ namespace Tests.Katas
             _board = new Board(_pw1, _pb1, _pb2);
 
             Assert.Throws<OccupiedSquareException>(() => _board.Take(_pw1, _pb1));
+        }
+
+        [Test]
+        [Category("Dummy")]
+        public void DummyBotTest()
+        {
+            throw new NotImplementedException();
         }
     }
 }

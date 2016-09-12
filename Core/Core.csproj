@@ -41,7 +41,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Katas\Draughts\Board.cs" />
-    <Compile Include="Katas\Draughts\BoardHelper.cs" />
+    <Compile Include="Katas\Draughts\Helpers\BoardHelper.cs" />
+    <Compile Include="Katas\Draughts\Helpers\PieceAndPositionHelper.cs" />
+    <Compile Include="Katas\Draughts\Bot.cs" />
     <Compile Include="Katas\Draughts\Color.cs" />
     <Compile Include="Katas\Draughts\Exceptions\FriendlyAttackException.cs" />
     <Compile Include="Katas\Draughts\Exceptions\InvalidMoveException.cs" />
@@ -77,6 +79,7 @@
     <Compile Include="Utils\Defense\Is.cs" />
     <Compile Include="Utils\NumberExtensions.cs" />
     <Compile Include="Utils\Producer.cs" />
+    <Compile Include="Utils\StringExtensions.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
