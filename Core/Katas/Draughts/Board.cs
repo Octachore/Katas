@@ -50,7 +50,7 @@ namespace Core.Katas.Draughts
         /// </summary>
         /// <param name="piece">The piece to consider.</param>
         /// <returns>The possible destinations.</returns>
-        public IEnumerable<Mouve> GetPossibleSimpleMoves(Piece piece) => piece.ForwardSquares().Where(IsFree).Select(s => new SimpleMouve(piece, s, piece.Color));
+        public IEnumerable<Mouve> GetPossibleSimpleMoves(Piece piece) => piece.ForwardSquares().Where(IsFree).Select(s => new SimpleMouve(piece, s));
 
         public IEnumerable<Mouve> GetPossibleMoves(Piece piece) => GetPossibleSimpleMoves(piece).Union(GetPossibleTakingsMouves(piece));
 
@@ -66,7 +66,7 @@ namespace Core.Katas.Draughts
                     .Select(s =>
                             {
                                 Piece p = Pieces.FirstOrDefault(pi => pi.Square == s);
-                                return new TakingMouve(piece, p, piece.Color);
+                                return new TakingMouve(piece, p);
                             });
 
         public void Take(Piece attacker, Piece target)

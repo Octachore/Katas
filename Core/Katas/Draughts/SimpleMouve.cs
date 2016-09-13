@@ -2,7 +2,7 @@
 {
     public class SimpleMouve : Mouve
     {
-        public SimpleMouve(IPosition origin, IPosition target, Color color) : base(origin, target, color)
+        public SimpleMouve(Piece origin, IPosition target) : base(origin, target)
         {
         }
 

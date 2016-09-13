@@ -32,12 +32,12 @@ namespace Core.Katas.Draughts
         private IEnumerable<Mouve> PlaySimpleMove(ICollection<Piece> pieces)
         {
             Piece piece = pieces.PickRandom();
-            Square origin = piece.Square;
+            Piece origin = piece.Clone();
 
             IPosition position = PickDestination(piece);
             piece.Square = new Square(position.X, position.Y);
 
-            yield return new SimpleMouve(origin, piece, piece.Color);
+            yield return new SimpleMouve(origin, piece);
         }
 
         private IPosition PickDestination(Piece piece) => Board.GetPossibleSimpleMoves(piece).ToList().PickRandom().Target;
@@ -57,7 +57,7 @@ namespace Core.Katas.Draughts
 
             Board.Take(attacker, target);
 
-            mouves.Add(new TakingMouve(origin, target, attacker.Color));
+            mouves.Add(new TakingMouve(origin, target));
 
             if (Board.GetPossibleTakingsMouves(attacker).Any()) mouves.AddRange(PlayTakingMouve(attacker, target));
 

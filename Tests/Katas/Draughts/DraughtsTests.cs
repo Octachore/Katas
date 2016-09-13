@@ -49,15 +49,15 @@ namespace Tests.Katas.Draughts
         [Test]
         public void A_Piece_Can_Detremine_Its_Possible_Moves_Without_Taking_On_A_Board()
         {
-            var pw1Mouves = new[] { new Square(0, 2) };
-            var pw2Mouves = new Square[0];
-            var pw3Mouves = new[] { new Square(2, 6), new Square(4, 6) };
-            var pw4Mouves = new[] { new Square(8, 1) };
+            var pw1Mouves = new[] { new SimpleMouve(_pw1, new Square(0, 2)) };
+            var pw2Mouves = new Mouve[0];
+            var pw3Mouves = new[] { new SimpleMouve(_pw3, new Square(2, 6)), new SimpleMouve(_pw3, new Square(4, 6)) };
+            var pw4Mouves = new[] { new SimpleMouve(_pw4, new Square(8, 1)) };
 
-            var pb1Mouves = new[] { new Square(3, 1) };
-            var pb2Mouves = new[] { new Square(4, 0), new Square(6, 0) };
-            var pb3Mouves = new[] { new Square(5, 5) };
-            var pb4Mouves = new[] { new Square(3, 3), new Square(5, 3) };
+            var pb1Mouves = new[] { new SimpleMouve(_pb1, new Square(3, 1)) };
+            var pb2Mouves = new[] { new SimpleMouve(_pb2, new Square(4, 0)), new SimpleMouve(_pb2, new Square(6, 0)) };
+            var pb3Mouves = new[] { new SimpleMouve(_pb3, new Square(5, 5)) };
+            var pb4Mouves = new[] { new SimpleMouve(_pb4, new Square(3, 3)), new SimpleMouve(_pb4, new Square(5, 3)) };
 
             Assert.That(_board.GetPossibleSimpleMoves(_pw1), Is.EquivalentTo(pw1Mouves));
             Assert.That(_board.GetPossibleSimpleMoves(_pw2), Is.EquivalentTo(pw2Mouves));
@@ -73,15 +73,15 @@ namespace Tests.Katas.Draughts
         [Test]
         public void A_Piece_Can_Determine_Its_Possible_Takings()
         {
-            var pw1Takings = new[] { new Square(2, 2) };
-            var pw2Takings = new Square[0];
-            var pw3Takings = new[] { new Square(4, 4) };
-            var pw4Takings = new Square[0];
+            var pw1Takings = new[] { new TakingMouve(_pw1, _pb1) };
+            var pw2Takings = new TakingMouve[0];
+            var pw3Takings = new[] { new TakingMouve(_pw3, _pb4) };
+            var pw4Takings = new TakingMouve[0];
 
-            var pb1Takings = new[] { new Square(1, 1) };
-            var pb2Takings = new Square[0];
-            var pb3Takings = new[] { new Square(7, 5) };
-            var pb4Takings = new[] { new Square(3, 5) };
+            var pb1Takings = new[] { new TakingMouve(_pb1, _pw1) };
+            var pb2Takings = new TakingMouve[0];
+            var pb3Takings = new[] { new TakingMouve(_pb3, _pw5) };
+            var pb4Takings = new[] { new TakingMouve(_pb4, _pw3) };
 
             Assert.That(_board.GetPossibleTakingsMouves(_pw1), Is.EquivalentTo(pw1Takings));
             Assert.That(_board.GetPossibleTakingsMouves(_pw2), Is.EquivalentTo(pw2Takings));
