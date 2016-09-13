@@ -6,7 +6,7 @@ namespace Core.Utils.Defense
     /// Represents a guard constraint.
     /// </summary>
     /// <typeparam name="T">The type of the constrained argument.</typeparam>
-    public interface IGuardConstraint<T>
+    public interface IGuardConstraint<in T>
     {
         /// <summary>
         /// Gets the inner exception in case of failure.

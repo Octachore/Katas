@@ -1,8 +1,7 @@
-﻿using System;
-using Core.Katas.Draughts;
+﻿using Core.Katas.Draughts;
 using Core.Katas.Draughts.Exceptions;
-using Core.Katas.Draughts.Helpers;
 using NUnit.Framework;
+using System;
 
 namespace Tests.Katas.Draughts
 {

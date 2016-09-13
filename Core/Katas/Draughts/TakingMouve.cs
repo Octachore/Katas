@@ -1,5 +1,5 @@
-﻿using System;
-using Core.Utils.Defense;
+﻿using Core.Utils.Defense;
+using System;
 
 namespace Core.Katas.Draughts
 {

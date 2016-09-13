@@ -1,7 +1,6 @@
-﻿using System.Linq;
-using System.Windows.Forms;
-using Core.Katas.Draughts;
+﻿using Core.Katas.Draughts;
 using DraughtsPlayer.Logic;
+using System.Windows.Forms;
 
 namespace DraughtsPlayer
 {
@@ -41,7 +40,7 @@ namespace DraughtsPlayer
 
         private void PlayPlayerRound()
         {
-            _gameService.PlayRound(cb_moves.SelectedItem as Mouve);
+            _gameService.PlayRound((Mouve)cb_moves.SelectedItem);
             ResetSelectLists();
             RefreshBindings();
         }

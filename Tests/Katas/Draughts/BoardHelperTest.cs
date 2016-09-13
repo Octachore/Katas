@@ -1,7 +1,7 @@
-﻿using System;
-using Core.Katas.Draughts;
+﻿using Core.Katas.Draughts;
 using Core.Katas.Draughts.Helpers;
 using NUnit.Framework;
+using System;
 
 namespace Tests.Katas.Draughts
 {
@@ -34,8 +34,6 @@ namespace Tests.Katas.Draughts
         [TestCase(5, 5, 53)]
         public void GetPositionInString_Gets_The_position_Of_The_Character_Representing_A_Position_In_The_Board(int x, int y, int expectedPosition)
         {
-            var board = new Board();
-
             int position = BoardHelper.GetPositionInString(x, y);
 
             Assert.That(position, Is.EqualTo(expectedPosition));

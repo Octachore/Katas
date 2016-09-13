@@ -12,9 +12,9 @@ namespace Core.Katas.SudokuSolver
     /// </summary>
     internal class SudokuGrid
     {
-        private SudokuCell[,] _cells;
-        private IEnumerable<int> _possibleValues;
-        private int _size;
+        private readonly SudokuCell[,] _cells;
+        private readonly IEnumerable<int> _possibleValues;
+        private readonly int _size;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="SudokuGrid"/> class. All the cells are "empty" (their value is <c>null</c>).
@@ -44,8 +44,10 @@ namespace Core.Katas.SudokuSolver
                 for (int j = 0; j < _size; j++)
                 {
                     int value = grid[i, j];
-                    _cells[i, j] = new SudokuCell();
-                    _cells[i, j].Value = value > 0 && value <= grid.Length ? value : (int?)null;
+                    _cells[i, j] = new SudokuCell
+                    {
+                        Value = (value > 0) && (value <= grid.Length) ? value : (int?)null
+                    };
                 }
             }
         }
@@ -83,25 +85,23 @@ namespace Core.Katas.SudokuSolver
         /// Retrieves the hash code of the object.
         /// </summary>
         /// <returns>The hash code of the object.</returns>
-        public override int GetHashCode()
-        {
-            return _cells.GetHashCode();
-        }
+        public override int GetHashCode() => _cells.GetHashCode();
 
         /// <summary>
         /// Solves the grid.
         /// </summary>
         public void Solve()
         {
-            for (int i = 0; i < _size; i++)
+            while (!IsSolved)
             {
-                for (int j = 0; j < _size; j++)
+                for (int i = 0; i < _size; i++)
                 {
-                    if (!_cells[i, j].IsSolved) SolveCell(i, j);
+                    for (int j = 0; j < _size; j++)
+                    {
+                        if (!_cells[i, j].IsSolved) SolveCell(i, j);
+                    }
                 }
             }
-
-            if (!IsSolved) Solve();
         }
 
         /// <summary>
@@ -121,15 +121,15 @@ namespace Core.Katas.SudokuSolver
             IEnumerable<int> freeInLine = GetFreeInLine(i, j);
             IEnumerable<int> freeInColumn = GetFreeInColumn(i, j);
 
-            IEnumerable<int> possibilities = freeInSquare.Intersect(freeInLine).Intersect(freeInColumn);
+            List<int> possibilities = freeInSquare.Intersect(freeInLine).Intersect(freeInColumn).ToList();
 
             if (!possibilities.Any())
                 throw new InvalidOperationException("Not solvable");
 
-            if (possibilities.Count() == 1) cell.Value = possibilities.First();
+            if (possibilities.Count == 1) cell.Value = possibilities.First();
             else cell.Possibilities = possibilities;
 
-            if (!cell.IsSolved && cell.Possibilities.Count() < initialPossibilitiesNumber) SolveCell(i, j);
+            if (!cell.IsSolved && (cell.Possibilities.Count() < initialPossibilitiesNumber)) SolveCell(i, j);
         }
 
         /// <summary>
@@ -151,6 +151,7 @@ namespace Core.Katas.SudokuSolver
             }
             return builder.ToString();
         }
+
         /// <summary>
         /// Gets the free values in a column.
         /// </summary>
@@ -159,7 +160,7 @@ namespace Core.Katas.SudokuSolver
         /// <returns>The free values.</returns>
         private IEnumerable<int> GetFreeInColumn(int i, int j)
         {
-            List<int?> used = new List<int?>();
+            var used = new List<int?>();
 
             for (int x = 0; x < _size; x++)
             {
@@ -178,7 +179,7 @@ namespace Core.Katas.SudokuSolver
         /// <returns>The free values.</returns>
         private IEnumerable<int> GetFreeInLine(int i, int j)
         {
-            List<int?> used = new List<int?>();
+            var used = new List<int?>();
 
             for (int y = 0; y < _size; y++)
             {
@@ -198,13 +199,13 @@ namespace Core.Katas.SudokuSolver
         private IEnumerable<int> GetFreeInSquare(int i, int j)
         {
             Tuple<int, int> coordinates = GetSquareTopLeftCoordinates(i, j);
-            List<int?> used = new List<int?>();
+            var used = new List<int?>();
 
             for (int x = 0; x < 3; x++)
             {
                 for (int y = 0; y < 3; y++)
                 {
-                    if (coordinates.Item1 + x == i && coordinates.Item2 + y == j) continue;
+                    if ((coordinates.Item1 + x == i) && (coordinates.Item2 + y == j)) continue;
 
                     used.Add(_cells[coordinates.Item1 + x, coordinates.Item2 + y].Value);
                 }

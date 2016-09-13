@@ -45,7 +45,7 @@ namespace Tests
                             _board2Representation = "..........\r\n..........\r\n..........\r\n..........\r\n..........\r\n..........\r\n..........\r\n..........\r\n..........\r\nW.........\r\n";
 
                             _board3 = new Board();
-                            var pieces = new Piece[]
+                            var pieces = new[]
                                          {
                                              new Piece(0, 0, Color.White),
                                              new Piece(4, 4, Color.White),
@@ -58,11 +58,10 @@ namespace Tests
                                              new Piece(0, 4, Color.Black),
                                              new Piece(9, 2, Color.Black),
                                              new Piece(7, 7, Color.Black),
-                                             new Piece(0, 3, Color.Black),
+                                             new Piece(0, 3, Color.Black)
                                          };
                             _board3.Add(pieces);
                             _board3Representation = "...W......\r\n..........\r\n..W....B..\r\n........W.\r\n..........\r\nB...W.....\r\nB....B...B\r\n.........B\r\n..........\r\nW........W\r\n";
-
                         }
                     }
                 }

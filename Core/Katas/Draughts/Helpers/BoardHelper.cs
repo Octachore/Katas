@@ -1,9 +1,8 @@
-﻿using System;
+﻿using Core.Utils;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading;
-using Core.Utils;
 
 namespace Core.Katas.Draughts.Helpers
 {
@@ -13,8 +12,6 @@ namespace Core.Katas.Draughts.Helpers
             => (emptySquareRepresentation.Repeat(size) + Environment.NewLine).Repeat(size);
 
         public static int GetPositionInString(int x, int y, int size = Board.DEFAULT_SIZE) => (Board.DEFAULT_SIZE - y - 1) * (Board.DEFAULT_SIZE + Environment.NewLine.Length) + x;
-
-        private static int GetStringSize(int boardSize) => boardSize * (boardSize + Environment.NewLine.Length);
 
         public static string Print(this Board board, string emptySquareRepresentation = ".")
         {
@@ -29,6 +26,7 @@ namespace Core.Katas.Draughts.Helpers
         }
 
         public static List<Piece> WhitePieces(this Board board) => board.Pieces.Where(p => p.Color == Color.White).ToList();
+
         public static List<Piece> BlackPieces(this Board board) => board.Pieces.Where(p => p.Color == Color.Black).ToList();
     }
 }

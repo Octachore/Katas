@@ -15,7 +15,7 @@
         /// <summary>Determines whether the specified object is equal to the current object.</summary>
         /// <returns>true if the specified object  is equal to the current object; otherwise, false.</returns>
         /// <param name="obj">The object to compare with the current object. </param>
-        public override bool Equals(object obj) => (obj as Square) == this;
+        public override bool Equals(object obj) => obj as Square == this;
 
         /// <summary>Serves as the default hash function. </summary>
         /// <returns>A hash code for the current object.</returns>

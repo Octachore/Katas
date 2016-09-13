@@ -12,8 +12,8 @@ namespace Core.Utils.Defense
         {
         }
     }
+
     internal class GuardException : Exception
     {
     }
-
 }

@@ -1,7 +1,7 @@
-﻿using System.Collections.Generic;
-using Core.Katas.RomanCalculator;
+﻿using Core.Katas.RomanCalculator;
 using Core.Katas.RomanCalculator.Lexica;
 using NUnit.Framework;
+using System.Collections.Generic;
 
 namespace Tests.Katas
 {
@@ -36,9 +36,9 @@ namespace Tests.Katas
         [TestCase(TokenType.L, TokenType.X, "LX")]
         public void GetUncompactedToken_gets_uncompacted_token(TokenType tokenType, TokenType previousTokenType, string expectedRepresentation)
         {
-            IEnumerable<Token> tokens = new Token[] { new Token(tokenType), new Token(previousTokenType) };
+            var tokens = new List<Token> { new Token(tokenType), new Token(previousTokenType) };
             Compacter.Uncompact(ref tokens);
-            var printed = RomanCalculator.Print(tokens);
+            string printed = RomanCalculator.Print(tokens);
             Assert.That(printed, Is.EqualTo(expectedRepresentation));
         }
     }

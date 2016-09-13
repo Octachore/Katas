@@ -11,7 +11,7 @@ namespace Tests.Katas
         [Category("Transversal")]
         public void SudokuSolver_solves_sudoku()
         {
-            var solution = new SudokuGrid(new int[,]
+            var solution = new SudokuGrid(new[,]
             {
                 {4,1,5,6,3,8,9,7,2 },
                 {3,6,2,4,7,9,1,8,5 },
@@ -24,7 +24,7 @@ namespace Tests.Katas
                 {6,9,1,8,2,3,5,4,7 }
             });
 
-            var easy = new SudokuGrid(new int[,]
+            var easy = new SudokuGrid(new[,]
             {
                 {0,1,5,6,3,8,9,7,0 },
                 {3,0,2,4,7,9,1,0,5 },
@@ -37,7 +37,7 @@ namespace Tests.Katas
                 {0,9,1,8,2,3,5,4,0 }
             });
 
-            var grid = new SudokuGrid(new int[,]
+            var grid = new SudokuGrid(new[,]
             {
                 {0,1,5,6,3,8,9,7,2 },
                 {3,6,2,4,7,9,1,8,5 },

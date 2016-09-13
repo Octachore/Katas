@@ -7,15 +7,13 @@ namespace Core.Katas.RomanCalculator
 {
     internal static class Compacter
     {
-        public static void Compact(ref IEnumerable<Token> tokens)
+        public static void Compact(ref List<Token> tokens)
         {
-            IEnumerable<Token> enumerable = tokens as Token[] ?? tokens.ToArray();
-
-            if (!enumerable.HasMoreThan(1)) return;
+            if (tokens.Count <= 1) return;
 
             var compacted = new List<Token>();
             var buffer = new Queue<Token>(4);
-            foreach (Token token in enumerable)
+            foreach (Token token in tokens)
             {
                 buffer.Enqueue(token);
 
@@ -24,18 +22,16 @@ namespace Core.Katas.RomanCalculator
 
             compacted.AddRange(buffer);
 
-            tokens = compacted.Where(t => t != null);
+            tokens = compacted.Where(t => t != null).ToList();
         }
 
-        public static void Uncompact(ref IEnumerable<Token> tokens)
+        public static void Uncompact(ref List<Token> tokens)
         {
-            IEnumerable<Token> enumerable = tokens as Token[] ?? tokens.ToArray();
-
-            if (!enumerable.HasMoreThan(1)) return;
+            if (tokens.Count <= 1) return;
 
             var uncompacted = new List<Token>();
             var buffer = new Queue<Token>(2);
-            foreach (Token token in enumerable)
+            foreach (Token token in tokens)
             {
                 buffer.Enqueue(token);
 
@@ -44,7 +40,7 @@ namespace Core.Katas.RomanCalculator
 
             uncompacted.AddRange(buffer);
 
-            tokens = uncompacted.Where(t => t != null);
+            tokens = uncompacted.Where(t => t != null).ToList();
         }
 
         private static IEnumerable<Token> InAdditiveForm(this Queue<Token> buffer)
@@ -99,9 +95,11 @@ namespace Core.Katas.RomanCalculator
             {
                 case 1:
                     break;
+
                 case 2:
                     yield return new Token(baseType - 1);
                     break;
+
                 default:
                     throw new InvalidOperationException($"The previous token ({subType}) must be one or two symbols lower than the token ({baseType})");
             }

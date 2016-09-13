@@ -1,10 +1,11 @@
-﻿using System;
+﻿using Core.Katas.Draughts;
+using Core.Katas.Draughts.Helpers;
+using Core.Utils.Defense;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
-using Core.Katas.Draughts;
-using Core.Katas.Draughts.Helpers;
 
 namespace DraughtsPlayer.Logic
 {
@@ -66,7 +67,7 @@ namespace DraughtsPlayer.Logic
 
         public string CurrentBoardRepresentation => CurrentBoard.Print("_");
 
-        public List<Piece> CurrentWhitePieces => CurrentBoard.WhitePieces().Where(p=> CurrentBoard.GetPossibleMoves(p).Any()).ToList();
+        public List<Piece> CurrentWhitePieces => CurrentBoard.WhitePieces().Where(p => CurrentBoard.GetPossibleMoves(p).Any()).ToList();
 
         public List<Piece> CurrentBlackPieces => CurrentBoard.BlackPieces().Where(p => CurrentBoard.GetPossibleMoves(p).Any()).ToList();
 
@@ -95,20 +96,21 @@ namespace DraughtsPlayer.Logic
 
         public void PlayRound(Mouve mouve)
         {
-            Board initialBoard = CurrentBoard.Clone();
-            string message = $"W : {mouve}";
+            Guard.Requires(mouve != null, new ArgumentNullException(nameof(mouve)));
 
             if (mouve is TakingMouve)
             {
-                ////IEnumerable<Mouve> mouves = CurrentBoard.Take(SelectedWhitePiece, mouve.Target);
-                CurrentBoard.Take(SelectedWhitePiece, (Piece)mouve.Target);
+                IEnumerable<Mouve> mouves = _bot.PlayTakingMouve((Piece)mouve.Origin, (Piece)mouve.Target);
+                foreach (Mouve m in mouves)
+                {
+                    MouvesHistory.Add(m);
+                }
             }
             else
             {
                 SelectedWhitePiece.Square = new Square(mouve.Target.X, mouve.Target.Y);
+                MouvesHistory.Add(mouve);
             }
-
-            MouvesHistory.Add(mouve);
         }
 
         public bool CanAct(Piece piece) => (piece != null) && CurrentBoard.GetPossibleMoves(piece).Any();

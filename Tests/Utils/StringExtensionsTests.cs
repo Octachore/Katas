@@ -1,5 +1,4 @@
-﻿using System.Text.RegularExpressions;
-using Core.Utils;
+﻿using Core.Utils;
 using NUnit.Framework;
 
 namespace Tests.Utils

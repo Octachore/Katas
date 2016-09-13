@@ -37,21 +37,12 @@ namespace Core.Katas.SudokuSolver
         /// </summary>
         /// <param name="obj">The object to compare with the current object.</param>
         /// <returns><c>true</c> if the specified object is equal to the current object; otherwise, <c>false</c>.</returns>
-        public override bool Equals(object obj)
-        {
-            SudokuCell cell = obj as SudokuCell;
-            if (cell == null) return false;
-
-            return Value == cell.Value;
-        }
+        public override bool Equals(object obj) => Value == (obj as SudokuCell)?.Value;
 
         /// <summary>
         /// Retrieves the hash code of the object.
         /// </summary>
         /// <returns>The hash code of the object.</returns>
-        public override int GetHashCode()
-        {
-            return Value.GetHashCode();
-        }
+        public override int GetHashCode() => Value.GetHashCode();
     }
 }

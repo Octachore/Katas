@@ -1,7 +1,7 @@
-﻿using Core.Utils;
+﻿using Core.Katas.Draughts.Helpers;
+using Core.Utils;
 using System.Collections.Generic;
 using System.Linq;
-using Core.Katas.Draughts.Helpers;
 
 namespace Core.Katas.Draughts
 {
@@ -45,22 +45,21 @@ namespace Core.Katas.Draughts
         private IEnumerable<Mouve> PlayTakingMouve(ICollection<Piece> attackers)
         {
             Piece attacker = attackers.PickRandom(); // TODO: add logic (i.e. pick the attacker that can take the more enemies
+            Piece target = PickTarget(attacker);
 
-            return PlayTakingMouve(attacker);
+            return PlayTakingMouve(attacker, target);
         }
 
-        private IEnumerable<Mouve> PlayTakingMouve(Piece attacker)
+        public IEnumerable<Mouve> PlayTakingMouve(Piece attacker, Piece target)
         {
             var mouves = new List<Mouve>();
-
-            Piece target = PickTarget(attacker);
             Piece origin = attacker.Clone();
 
             Board.Take(attacker, target);
 
             mouves.Add(new TakingMouve(origin, target, attacker.Color));
 
-            if (Board.GetPossibleTakingsMouves(attacker).Any()) mouves.AddRange(PlayTakingMouve(attacker));
+            if (Board.GetPossibleTakingsMouves(attacker).Any()) mouves.AddRange(PlayTakingMouve(attacker, target));
 
             return mouves;
         }

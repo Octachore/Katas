@@ -1,9 +1,9 @@
 ﻿using Core.Katas.Draughts.Exceptions;
+using Core.Katas.Draughts.Helpers;
 using Core.Utils;
 using Core.Utils.Defense;
 using System.Collections.Generic;
 using System.Linq;
-using Core.Katas.Draughts.Helpers;
 
 namespace Core.Katas.Draughts
 {
@@ -63,8 +63,11 @@ namespace Core.Katas.Draughts
         /// <returns>The position of the pieces the considered piece can take.</returns>
         public IEnumerable<Mouve> GetPossibleTakingsMouves(Piece piece)
             => piece.ForwardSquares().Union(piece.BackwardSquares()).Where(square => SquareContainsPiece(square, ~piece.Color) && IsFree(piece.Over(square)))
-                .Select(s => Pieces.FirstOrDefault(p => p.Square == s))
-                .Select(p => new TakingMouve(piece, p, piece.Color));
+                    .Select(s =>
+                            {
+                                Piece p = Pieces.FirstOrDefault(pi => pi.Square == s);
+                                return new TakingMouve(piece, p, piece.Color);
+                            });
 
         public void Take(Piece attacker, Piece target)
         {

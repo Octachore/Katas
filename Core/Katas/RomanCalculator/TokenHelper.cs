@@ -1,15 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using Core.Katas.RomanCalculator.Lexica;
+using System.Collections.Generic;
 using System.Linq;
-using Core.Katas.RomanCalculator.Lexica;
 
 namespace Core.Katas.RomanCalculator
 {
     internal static class TokenHelper
     {
-        public static bool HasFourIdentiqualTokens(this Queue<Token> buffer)
-        {
-            return !buffer.GroupBy(t => t.Type).HasMoreThan(1);
-        }
+        public static bool HasFourIdentiqualTokens(this Queue<Token> buffer) => !buffer.GroupBy(t => t.Type).HasMoreThan(1);
 
         public static bool IsSubstractiveForm(this Queue<Token> buffer)
         {

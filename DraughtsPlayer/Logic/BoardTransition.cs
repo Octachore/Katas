@@ -16,7 +16,7 @@ namespace DraughtsPlayer.Logic
             FinalBoard = finalBoard;
             Description = description;
         }
-        
+
         public override string ToString() => Description;
     }
 }

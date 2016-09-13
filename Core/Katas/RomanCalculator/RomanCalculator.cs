@@ -1,7 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using Core.Katas.RomanCalculator.Lexica;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Core.Katas.RomanCalculator.Lexica;
 
 namespace Core.Katas.RomanCalculator
 {
@@ -9,18 +9,18 @@ namespace Core.Katas.RomanCalculator
     {
         internal string Add(string num1, string num2)
         {
-            IEnumerable<Token> tokens1 = Tokenize(num1);
-            IEnumerable<Token> tokens2 = Tokenize(num2);
+            List<Token> tokens1 = Tokenize(num1).ToList();
+            List<Token> tokens2 = Tokenize(num2).ToList();
 
             // Transform all subtractions in additions (e.g. IV -> IIII)
             Compacter.Uncompact(ref tokens1);
             Compacter.Uncompact(ref tokens2);
 
             // Join the two numbers
-            IEnumerable<Token> tokens = tokens1.Union(tokens2);
+            List<Token> tokens = tokens1.Union(tokens2).ToList();
 
             // Sort the symbols, the highest first
-            tokens = tokens.OrderByDescending(t => t.Type);
+            tokens = tokens.OrderByDescending(t => t.Type).ToList();
 
             // Combine symbols from lower to highest
             Combiner.Combine(ref tokens);

@@ -1,8 +1,8 @@
-﻿using System;
+﻿using Core.Utils;
+using Core.Utils.Defense;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using Core.Utils;
-using Core.Utils.Defense;
 
 namespace Core.Katas.Draughts.Helpers
 {
