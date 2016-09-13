@@ -17,19 +17,13 @@ namespace Core.Utils.Defense
             if (!condition()) throw new GuardException();
         }
 
-        public static void Requires<T>(Func<bool> condition) where T : Exception, new()
+        public static void Requires<T>(Func<bool> condition, T exception) where T : Exception
         {
-            if (!condition()) throw new T();
+            if (!condition()) throw exception;
         }
 
-        public static void Requires(bool condition)
-        {
-            Requires(() => condition);
-        }
+        public static void Requires(bool condition) => Requires(() => condition);
 
-        public static void Requires<T>(bool condition) where T : Exception, new()
-        {
-            Requires<T>(() => condition);
-        }
+        public static void Requires<T>(bool condition, T exception) where T : Exception => Requires(() => condition, exception);
     }
 }

@@ -60,15 +60,15 @@ namespace Tests.Katas.Draughts
             var pb3Mouves = new[] { new Square(5, 5) };
             var pb4Mouves = new[] { new Square(3, 3), new Square(5, 3) };
 
-            Assert.That(_board.GetPossibleMoves(_pw1), Is.EquivalentTo(pw1Mouves));
-            Assert.That(_board.GetPossibleMoves(_pw2), Is.EquivalentTo(pw2Mouves));
-            Assert.That(_board.GetPossibleMoves(_pw3), Is.EquivalentTo(pw3Mouves));
-            Assert.That(_board.GetPossibleMoves(_pw4), Is.EquivalentTo(pw4Mouves));
+            Assert.That(_board.GetPossibleSimpleMoves(_pw1), Is.EquivalentTo(pw1Mouves));
+            Assert.That(_board.GetPossibleSimpleMoves(_pw2), Is.EquivalentTo(pw2Mouves));
+            Assert.That(_board.GetPossibleSimpleMoves(_pw3), Is.EquivalentTo(pw3Mouves));
+            Assert.That(_board.GetPossibleSimpleMoves(_pw4), Is.EquivalentTo(pw4Mouves));
 
-            Assert.That(_board.GetPossibleMoves(_pb1), Is.EquivalentTo(pb1Mouves));
-            Assert.That(_board.GetPossibleMoves(_pb2), Is.EquivalentTo(pb2Mouves));
-            Assert.That(_board.GetPossibleMoves(_pb3), Is.EquivalentTo(pb3Mouves));
-            Assert.That(_board.GetPossibleMoves(_pb4), Is.EquivalentTo(pb4Mouves));
+            Assert.That(_board.GetPossibleSimpleMoves(_pb1), Is.EquivalentTo(pb1Mouves));
+            Assert.That(_board.GetPossibleSimpleMoves(_pb2), Is.EquivalentTo(pb2Mouves));
+            Assert.That(_board.GetPossibleSimpleMoves(_pb3), Is.EquivalentTo(pb3Mouves));
+            Assert.That(_board.GetPossibleSimpleMoves(_pb4), Is.EquivalentTo(pb4Mouves));
         }
 
         [Test]
@@ -84,15 +84,15 @@ namespace Tests.Katas.Draughts
             var pb3Takings = new[] { new Square(7, 5) };
             var pb4Takings = new[] { new Square(3, 5) };
 
-            Assert.That(_board.GetPossibleTakings(_pw1), Is.EquivalentTo(pw1Takings));
-            Assert.That(_board.GetPossibleTakings(_pw2), Is.EquivalentTo(pw2Takings));
-            Assert.That(_board.GetPossibleTakings(_pw3), Is.EquivalentTo(pw3Takings));
-            Assert.That(_board.GetPossibleTakings(_pw4), Is.EquivalentTo(pw4Takings));
+            Assert.That(_board.GetPossibleTakingsMouves(_pw1), Is.EquivalentTo(pw1Takings));
+            Assert.That(_board.GetPossibleTakingsMouves(_pw2), Is.EquivalentTo(pw2Takings));
+            Assert.That(_board.GetPossibleTakingsMouves(_pw3), Is.EquivalentTo(pw3Takings));
+            Assert.That(_board.GetPossibleTakingsMouves(_pw4), Is.EquivalentTo(pw4Takings));
 
-            Assert.That(_board.GetPossibleTakings(_pb1), Is.EquivalentTo(pb1Takings));
-            Assert.That(_board.GetPossibleTakings(_pb2), Is.EquivalentTo(pb2Takings));
-            Assert.That(_board.GetPossibleTakings(_pb3), Is.EquivalentTo(pb3Takings));
-            Assert.That(_board.GetPossibleTakings(_pb4), Is.EquivalentTo(pb4Takings));
+            Assert.That(_board.GetPossibleTakingsMouves(_pb1), Is.EquivalentTo(pb1Takings));
+            Assert.That(_board.GetPossibleTakingsMouves(_pb2), Is.EquivalentTo(pb2Takings));
+            Assert.That(_board.GetPossibleTakingsMouves(_pb3), Is.EquivalentTo(pb3Takings));
+            Assert.That(_board.GetPossibleTakingsMouves(_pb4), Is.EquivalentTo(pb4Takings));
         }
 
         [Test]

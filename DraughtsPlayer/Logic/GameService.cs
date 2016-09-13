@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
@@ -72,7 +73,7 @@ namespace DraughtsPlayer.Logic
 
         public Piece SelectedWhitePiece { get; set; }
 
-        public List<Square> PossibleActions => SelectedWhitePiece == null ? new List<Square>() : CurrentBoard.GetPossibleDestinations(SelectedWhitePiece).ToList();
+        public List<Mouve> PossibleMouves => SelectedWhitePiece == null ? new List<Mouve>() : CurrentBoard.GetPossibleMoves(SelectedWhitePiece).ToList();
 
         public GameService()
         {
@@ -91,21 +92,24 @@ namespace DraughtsPlayer.Logic
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
             => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 
-        public void PlayRound(Square square)
+        public void PlayRound(Mouve mouve)
         {
             Board initialBoard = CurrentBoard.Clone();
-            string message = $"W : {SelectedWhitePiece.Square} --> {square}";
+            string message = $"W : {mouve}";
 
-            if (CurrentBoard.GetPossibleTakings(SelectedWhitePiece).Contains(square))
+            if (mouve.Type == MouveType.Taking)
             {
-                CurrentBoard.Take(SelectedWhitePiece, square);
+                CurrentBoard.Take(SelectedWhitePiece, mouve.Target);
+            }
+            else
+            {
+                SelectedWhitePiece.Square = mouve.Target;
             }
 
-            SelectedWhitePiece.Square = square;
             StateHistory.Add(new BoardTransition(initialBoard, CurrentBoard, message));
         }
 
-        public bool CanAct(Piece piece) => (piece != null) && CurrentBoard.GetPossibleDestinations(piece).Any();
+        public bool CanAct(Piece piece) => (piece != null) && CurrentBoard.GetPossibleMoves(piece).Any();
 
         public void PlayBotRound() => _bot.PlayTurn(Color.Black);
     }

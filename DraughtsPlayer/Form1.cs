@@ -1,6 +1,6 @@
-﻿using System.Windows.Forms;
+﻿using System.Linq;
+using System.Windows.Forms;
 using Core.Katas.Draughts;
-using Core.Katas.Draughts.Helpers;
 using DraughtsPlayer.Logic;
 
 namespace DraughtsPlayer
@@ -41,7 +41,7 @@ namespace DraughtsPlayer
 
         private void PlayPlayerRound()
         {
-            _gameService.PlayRound(cb_moves.SelectedItem as Square);
+            _gameService.PlayRound(cb_moves.SelectedItem as Mouve);
             ResetSelectLists();
             RefreshBindings();
         }
@@ -53,14 +53,14 @@ namespace DraughtsPlayer
 
         private void cb_pieces_SelectedValueChanged(object sender, System.EventArgs e)
         {
-            if ((cb_pieces.SelectedItem != null) && _gameService.CanAct(cb_pieces.SelectedItem as Piece))
-            {
-                cb_moves.Enabled = true;
-            }
-            else
-            {
-                cb_moves.Enabled = false;
-            }
+            ////if ((cb_pieces.SelectedItem != null) && _gameService.CanAct(cb_pieces.SelectedItem as Piece))
+            ////{
+            ////    cb_moves.Enabled = true;
+            ////}
+            ////else
+            ////{
+            ////    cb_moves.Enabled = false;
+            ////}
         }
 
         private void RefreshBindings()
@@ -87,13 +87,31 @@ namespace DraughtsPlayer
             tb_board.DataBindings.Add("Text", _gameService, "CurrentBoardRepresentation");
             cb_pieces.DataBindings.Add("DataSource", _gameService, "CurrentWhitePieces");
             cb_pieces.DataBindings.Add("SelectedItem", _gameService, "SelectedWhitePiece");
-            cb_moves.DataBindings.Add("DataSource", _gameService, "PossibleActions");
+            cb_moves.DataBindings.Add("DataSource", _gameService, "PossibleMouves");
         }
+
         private void ResetSelectLists()
         {
             cb_pieces.SelectedItem = null;
             cb_moves.SelectedItem = null;
             cb_moves.Enabled = false;
+        }
+
+        private void cb_pieces_SelectedIndexChanged(object sender, System.EventArgs e)
+        {
+            if (cb_pieces.Items.Count == 0) return;
+            if (cb_pieces.SelectedIndex < 0) return;
+
+            object item = cb_pieces.Items[cb_pieces.SelectedIndex];
+            if ((item != null) && _gameService.CanAct(item as Piece))
+            {
+                cb_moves.Enabled = true;
+                cb_moves.Focus();
+            }
+            else
+            {
+                cb_moves.Enabled = false;
+            }
         }
     }
 }

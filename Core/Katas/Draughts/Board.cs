@@ -25,10 +25,12 @@ namespace Core.Katas.Draughts
         {
             Bot = new Bot(this);
         }
+
         public Board(params Piece[] pieces) : this()
         {
             Pieces.AddRange(pieces);
         }
+
         /// <summary>
         /// Adds a piece to the board.
         /// </summary>
@@ -48,24 +50,28 @@ namespace Core.Katas.Draughts
         /// </summary>
         /// <param name="piece">The piece to consider.</param>
         /// <returns>The possible destinations.</returns>
-        public IEnumerable<Square> GetPossibleMoves(Piece piece) => piece.ForwardSquares().Where(IsFree);
+        public IEnumerable<Mouve> GetPossibleSimpleMoves(Piece piece) => piece.ForwardSquares().Where(IsFree).Select(s => new Mouve(piece.Square, s, MouveType.Simple));
 
-        public IEnumerable<Square> GetPossibleDestinations(Piece piece) => GetPossibleMoves(piece).Union(GetPossibleTakings(piece).Select(piece.Over));
+        public IEnumerable<Mouve> GetPossibleMoves(Piece piece) => GetPossibleSimpleMoves(piece).Union(GetPossibleTakingsMouves(piece));
+
+        ////public IEnumerable<Square> GetPossibleDestinations(Piece piece) => GetPossibleSimpleMoves(piece).Union(GetPossibleTakingsMouves(piece).Select(piece.Over));
 
         /// <summary>
         /// Gets the possible takings for a specified piece.
         /// </summary>
         /// <param name="piece">The piece to consider.</param>
         /// <returns>The position of the pieces the considered piece can take.</returns>
-        public IEnumerable<Square> GetPossibleTakings(Piece piece) => piece.ForwardSquares().Union(piece.BackwardSquares()).Where(square => SquareContainsPiece(square, ~piece.Color) && IsFree(piece.Over(square)));
+        public IEnumerable<Mouve> GetPossibleTakingsMouves(Piece piece)
+            => piece.ForwardSquares().Union(piece.BackwardSquares()).Where(square => SquareContainsPiece(square, ~piece.Color) && IsFree(piece.Over(square)))
+                .Select(s => new Mouve(piece.Square, s, MouveType.Taking));
 
         public void Take(Piece attacker, IPosition target)
         {
-            Guard.Requires<InvalidMoveException>(attacker.AdjacentDiagonalTo(target));
-            Guard.Requires<PieceNotOnBoardException>(Pieces.Contains(attacker));
-            Guard.Requires<PieceNotOnBoardException>(Pieces.Contains(target));
-            Guard.Requires<FriendlyAttackException>(SquareContainsPiece(target, ~attacker.Color));
-            Guard.Requires<OccupiedSquareException>(() => IsFree(attacker.Over(target)));
+            Guard.Requires(attacker.AdjacentDiagonalTo(target), new InvalidMoveException("The attacker must be adjacent diagonal to target."));
+            Guard.Requires(Pieces.Contains(attacker), new PieceNotOnBoardException("The attacker must be on the board."));
+            Guard.Requires(Pieces.Contains(target), new PieceNotOnBoardException("The target must be on the board."));
+            Guard.Requires(SquareContainsPiece(target, ~attacker.Color), new FriendlyAttackException("The target must be of the opposite color."));
+            Guard.Requires(() => IsFree(attacker.Over(target)), new OccupiedSquareException("The destination must be empty."));
 
             Pieces.RemoveAll(p => (p.X == target.X) && (p.Y == target.Y));
             attacker.Square = attacker.Over(target);

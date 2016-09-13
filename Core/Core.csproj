@@ -51,6 +51,8 @@
     <Compile Include="Katas\Draughts\Exceptions\OccupiedSquareException.cs" />
     <Compile Include="Katas\Draughts\Exceptions\PieceNotOnBoardException.cs" />
     <Compile Include="Katas\Draughts\IPosition.cs" />
+    <Compile Include="Katas\Draughts\Mouve.cs" />
+    <Compile Include="Katas\Draughts\MouveType.cs" />
     <Compile Include="Katas\Draughts\Piece.cs" />
     <Compile Include="Katas\Draughts\Square.cs" />
     <Compile Include="Katas\FizzBuzz\Constraint.cs" />

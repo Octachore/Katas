@@ -34,6 +34,8 @@
             this.cb_moves = new System.Windows.Forms.ComboBox();
             this.bt_play = new System.Windows.Forms.Button();
             this.bt_new_game = new System.Windows.Forms.Button();
+            this.lbl_pieces = new System.Windows.Forms.Label();
+            this.lbl_mouves = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // tb_board
@@ -57,23 +59,25 @@
             // cb_pieces
             // 
             this.cb_pieces.FormattingEnabled = true;
-            this.cb_pieces.Location = new System.Drawing.Point(12, 218);
+            this.cb_pieces.Location = new System.Drawing.Point(58, 218);
             this.cb_pieces.Name = "cb_pieces";
-            this.cb_pieces.Size = new System.Drawing.Size(100, 21);
+            this.cb_pieces.Size = new System.Drawing.Size(154, 21);
             this.cb_pieces.TabIndex = 0;
+            this.cb_pieces.SelectedIndexChanged += new System.EventHandler(this.cb_pieces_SelectedIndexChanged);
             this.cb_pieces.SelectedValueChanged += new System.EventHandler(this.cb_pieces_SelectedValueChanged);
             // 
             // cb_moves
             // 
             this.cb_moves.FormattingEnabled = true;
-            this.cb_moves.Location = new System.Drawing.Point(118, 218);
+            this.cb_moves.Location = new System.Drawing.Point(58, 245);
             this.cb_moves.Name = "cb_moves";
-            this.cb_moves.Size = new System.Drawing.Size(100, 21);
+            this.cb_moves.Size = new System.Drawing.Size(154, 21);
             this.cb_moves.TabIndex = 3;
             this.cb_moves.SelectedValueChanged += new System.EventHandler(this.cb_moves_SelectedValueChanged);
             // 
             // bt_play
             // 
+            this.bt_play.Enabled = false;
             this.bt_play.Location = new System.Drawing.Point(225, 218);
             this.bt_play.Name = "bt_play";
             this.bt_play.Size = new System.Drawing.Size(70, 23);
@@ -92,11 +96,33 @@
             this.bt_new_game.UseVisualStyleBackColor = true;
             this.bt_new_game.Click += new System.EventHandler(this.bt_new_game_Click);
             // 
+            // lbl_pieces
+            // 
+            this.lbl_pieces.AutoSize = true;
+            this.lbl_pieces.Location = new System.Drawing.Point(13, 223);
+            this.lbl_pieces.Name = "lbl_pieces";
+            this.lbl_pieces.Size = new System.Drawing.Size(39, 13);
+            this.lbl_pieces.TabIndex = 6;
+            this.lbl_pieces.Text = "Pieces";
+            this.lbl_pieces.TextAlign = System.Drawing.ContentAlignment.TopRight;
+            // 
+            // lbl_mouves
+            // 
+            this.lbl_mouves.AutoSize = true;
+            this.lbl_mouves.Location = new System.Drawing.Point(9, 248);
+            this.lbl_mouves.Name = "lbl_mouves";
+            this.lbl_mouves.Size = new System.Drawing.Size(45, 13);
+            this.lbl_mouves.TabIndex = 7;
+            this.lbl_mouves.Text = "Mouves";
+            this.lbl_mouves.TextAlign = System.Drawing.ContentAlignment.TopRight;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(382, 251);
+            this.ClientSize = new System.Drawing.Size(387, 281);
+            this.Controls.Add(this.lbl_mouves);
+            this.Controls.Add(this.lbl_pieces);
             this.Controls.Add(this.bt_new_game);
             this.Controls.Add(this.bt_play);
             this.Controls.Add(this.cb_moves);
@@ -118,6 +144,8 @@
         private System.Windows.Forms.ComboBox cb_moves;
         private System.Windows.Forms.Button bt_play;
         private System.Windows.Forms.Button bt_new_game;
+        private System.Windows.Forms.Label lbl_pieces;
+        private System.Windows.Forms.Label lbl_mouves;
     }
 }
 
