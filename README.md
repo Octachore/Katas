@@ -1,6 +1,9 @@
 # Katas
 Code katas in C#
 
+[![Build status](https://ci.appveyor.com/api/projects/status/pjxo5yq05uigp33n?svg=true)](https://ci.appveyor.com/project/Octachore/katas)
+
+
 
 ## FizzBuzz
 
