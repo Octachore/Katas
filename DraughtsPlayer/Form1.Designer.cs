@@ -112,7 +112,7 @@
             this.lbl_moves.AutoSize = true;
             this.lbl_moves.Location = new System.Drawing.Point(9, 248);
             this.lbl_moves.Name = "lbl_moves";
-            this.lbl_moves.Size = new System.Drawing.Size(45, 13);
+            this.lbl_moves.Size = new System.Drawing.Size(39, 13);
             this.lbl_moves.TabIndex = 7;
             this.lbl_moves.Text = "Moves";
             this.lbl_moves.TextAlign = System.Drawing.ContentAlignment.TopRight;
@@ -130,7 +130,10 @@
             this.Controls.Add(this.cb_pieces);
             this.Controls.Add(this.lb_history);
             this.Controls.Add(this.tb_board);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.MaximizeBox = false;
             this.Name = "Form1";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Draughts player";
             this.ResumeLayout(false);
             this.PerformLayout();
