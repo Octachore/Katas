@@ -5,31 +5,91 @@ using System.Linq;
 
 namespace Core.Katas.Draughts
 {
+    /// <summary>
+    /// Provides logic to automaticly play a turn.
+    /// </summary>
     public class Bot
     {
+        private readonly Board _board;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Bot"/> class.
+        /// </summary>
+        /// <param name="board"></param>
         public Bot(Board board)
         {
-            Board = board;
+            _board = board;
         }
 
-        public Board Board { get; }
+        /// <summary>
+        /// Playes a taking move.
+        /// </summary>
+        /// <param name="attacker">The attacker.</param>
+        /// <param name="target">The target.</param>
+        /// <returns></returns>
+        public IEnumerable<Move> PlayTakingMove(Piece attacker, Piece target)
+        {
+            var moves = new List<Move>();
+            Piece origin = attacker.Clone();
+
+            _board.Take(attacker, target);
+
+            moves.Add(new TakingMove(origin, target));
+
+            if (_board.GetPossibleTakingsMoves(attacker).Any()) moves.AddRange(PlayTakingMove(attacker, target));
+
+            return moves;
+        }
 
         /// <summary>
         /// Plays a turn.
         /// </summary>
         /// <param name="color">The (bot) player color.</param>
-        /// <returns>The played mouve.</returns>
-        public IEnumerable<Mouve> PlayTurn(Color color)
+        /// <returns>The played move.</returns>
+        public IEnumerable<Move> PlayTurn(Color color)
         {
-            List<Piece> pieces = Board.Pieces.GetPiecesOfColor(color).ToList();
-            ////IEnumerable<Piece> enemies = Board.Pieces.GetPiecesOfColor(~color);
+            List<Piece> pieces = _board.Pieces.GetPiecesOfColor(color).ToList();
+            ////IEnumerable<Piece> enemies = _board.Pieces.GetPiecesOfColor(~color);
             List<Piece> attackers = GetAttackers(pieces).ToList();
             List<Piece> movers = GetMovablePieces(pieces).ToList();
 
-            return attackers.Any() ? PlayTakingMouve(attackers) : PlaySimpleMove(movers);
+            return attackers.Any() ? PlayTakingMove(attackers) : PlaySimpleMove(movers);
         }
 
-        private IEnumerable<Mouve> PlaySimpleMove(ICollection<Piece> pieces)
+        /// <summary>
+        /// Gets the pieces that can attack.
+        /// </summary>
+        /// <param name="pieces">The pieces pool.</param>
+        /// <returns>The attackers.</returns>
+        private IEnumerable<Piece> GetAttackers(IEnumerable<Piece> pieces) => pieces.Where(p => _board.GetPossibleTakingsMoves(p).Any());
+
+        /// <summary>
+        /// Gets the pieces that can move.
+        /// </summary>
+        /// <param name="pieces">The pieces pool.</param>
+        /// <returns>The mouvable pieces.</returns>
+        private IEnumerable<Piece> GetMovablePieces(IEnumerable<Piece> pieces) => pieces.Where(p => _board.GetPossibleSimpleMoves(p).Any());
+
+        /// <summary>
+        /// Picks a destination among the possible ones for a specific piece.
+        /// </summary>
+        /// <param name="piece">The piece.</param>
+        /// <returns>The destination.</returns>
+        private IPosition PickDestination(Piece piece) => _board.GetPossibleSimpleMoves(piece).ToList().PickRandom().Target;
+
+        /// <summary>
+        /// Picks a target among the possible ones for a specific piece.
+        /// </summary>
+        /// <param name="attacker">The piece.</param>
+        /// <returns>The target.</returns>
+        private Piece PickTarget(Piece attacker) => _board.GetPossibleTakingsMoves(attacker).Select(m => new Piece(m.Target.X, m.Target.Y, ~attacker.Color)).ToList().PickRandom();
+
+        /// <summary>
+        /// Playes a simple move. Picks a piece and make it do a simple move.
+        /// </summary>
+        /// <param name="pieces">The pieces pool.</param>
+        /// <returns>The played moves.</returns>
+        private IEnumerable<Move> PlaySimpleMove(ICollection<Piece> pieces)
         {
             Piece piece = pieces.PickRandom();
             Piece origin = piece.Clone();
@@ -37,37 +97,20 @@ namespace Core.Katas.Draughts
             IPosition position = PickDestination(piece);
             piece.Square = new Square(position.X, position.Y);
 
-            yield return new SimpleMouve(origin, piece);
+            yield return new SimpleMove(origin, piece);
         }
 
-        private IPosition PickDestination(Piece piece) => Board.GetPossibleSimpleMoves(piece).ToList().PickRandom().Target;
-
-        private IEnumerable<Mouve> PlayTakingMouve(ICollection<Piece> attackers)
+        /// <summary>
+        /// Plays a taking move. Chooses an attacker among potential attackers and then chooses a target among its potential targets.
+        /// </summary>
+        /// <param name="attackers">The potential attackers.</param>
+        /// <returns>The played moves.</returns>
+        private IEnumerable<Move> PlayTakingMove(ICollection<Piece> attackers)
         {
             Piece attacker = attackers.PickRandom(); // TODO: add logic (i.e. pick the attacker that can take the more enemies
             Piece target = PickTarget(attacker);
 
-            return PlayTakingMouve(attacker, target);
+            return PlayTakingMove(attacker, target);
         }
-
-        public IEnumerable<Mouve> PlayTakingMouve(Piece attacker, Piece target)
-        {
-            var mouves = new List<Mouve>();
-            Piece origin = attacker.Clone();
-
-            Board.Take(attacker, target);
-
-            mouves.Add(new TakingMouve(origin, target));
-
-            if (Board.GetPossibleTakingsMouves(attacker).Any()) mouves.AddRange(PlayTakingMouve(attacker, target));
-
-            return mouves;
-        }
-
-        private Piece PickTarget(Piece attacker) => Board.GetPossibleTakingsMouves(attacker).Select(m => new Piece(m.Target.X, m.Target.Y, ~attacker.Color)).ToList().PickRandom();
-
-        private IEnumerable<Piece> GetAttackers(IEnumerable<Piece> pieces) => pieces.Where(p => Board.GetPossibleTakingsMouves(p).Any());
-
-        private IEnumerable<Piece> GetMovablePieces(IEnumerable<Piece> pieces) => pieces.Where(p => Board.GetPossibleSimpleMoves(p).Any());
     }
 }

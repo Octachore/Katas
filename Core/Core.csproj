@@ -51,11 +51,11 @@
     <Compile Include="Katas\Draughts\Exceptions\OccupiedSquareException.cs" />
     <Compile Include="Katas\Draughts\Exceptions\PieceNotOnBoardException.cs" />
     <Compile Include="Katas\Draughts\IPosition.cs" />
-    <Compile Include="Katas\Draughts\Mouve.cs" />
+    <Compile Include="Katas\Draughts\Move.cs" />
     <Compile Include="Katas\Draughts\Piece.cs" />
-    <Compile Include="Katas\Draughts\SimpleMouve.cs" />
+    <Compile Include="Katas\Draughts\SimpleMove.cs" />
     <Compile Include="Katas\Draughts\Square.cs" />
-    <Compile Include="Katas\Draughts\TakingMouve.cs" />
+    <Compile Include="Katas\Draughts\TakingMove.cs" />
     <Compile Include="Katas\FizzBuzz\Constraint.cs" />
     <Compile Include="Katas\FizzBuzz\Replacer.cs" />
     <Compile Include="Katas\PaintFiller\Filler.cs" />

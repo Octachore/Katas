@@ -40,7 +40,7 @@ namespace DraughtsPlayer
 
         private void PlayPlayerRound()
         {
-            _gameService.PlayRound((Mouve)cb_moves.SelectedItem);
+            _gameService.PlayRound((Move)cb_moves.SelectedItem);
             ResetSelectLists();
             RefreshBindings();
         }
@@ -82,11 +82,11 @@ namespace DraughtsPlayer
 
         private void RegisterBindings()
         {
-            lb_history.DataBindings.Add("DataSource", _gameService, "MouvesHistory");
+            lb_history.DataBindings.Add("DataSource", _gameService, "MovesHistory");
             tb_board.DataBindings.Add("Text", _gameService, "CurrentBoardRepresentation");
             cb_pieces.DataBindings.Add("DataSource", _gameService, "CurrentWhitePieces");
             cb_pieces.DataBindings.Add("SelectedItem", _gameService, "SelectedWhitePiece");
-            cb_moves.DataBindings.Add("DataSource", _gameService, "PossibleMouves");
+            cb_moves.DataBindings.Add("DataSource", _gameService, "PossibleMoves");
         }
 
         private void ResetSelectLists()

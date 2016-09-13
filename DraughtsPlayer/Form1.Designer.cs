@@ -35,7 +35,7 @@
             this.bt_play = new System.Windows.Forms.Button();
             this.bt_new_game = new System.Windows.Forms.Button();
             this.lbl_pieces = new System.Windows.Forms.Label();
-            this.lbl_mouves = new System.Windows.Forms.Label();
+            this.lbl_moves = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // tb_board
@@ -107,22 +107,22 @@
             this.lbl_pieces.Text = "Pieces";
             this.lbl_pieces.TextAlign = System.Drawing.ContentAlignment.TopRight;
             // 
-            // lbl_mouves
+            // lbl_moves
             // 
-            this.lbl_mouves.AutoSize = true;
-            this.lbl_mouves.Location = new System.Drawing.Point(9, 248);
-            this.lbl_mouves.Name = "lbl_mouves";
-            this.lbl_mouves.Size = new System.Drawing.Size(45, 13);
-            this.lbl_mouves.TabIndex = 7;
-            this.lbl_mouves.Text = "Mouves";
-            this.lbl_mouves.TextAlign = System.Drawing.ContentAlignment.TopRight;
+            this.lbl_moves.AutoSize = true;
+            this.lbl_moves.Location = new System.Drawing.Point(9, 248);
+            this.lbl_moves.Name = "lbl_moves";
+            this.lbl_moves.Size = new System.Drawing.Size(45, 13);
+            this.lbl_moves.TabIndex = 7;
+            this.lbl_moves.Text = "Moves";
+            this.lbl_moves.TextAlign = System.Drawing.ContentAlignment.TopRight;
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(461, 281);
-            this.Controls.Add(this.lbl_mouves);
+            this.Controls.Add(this.lbl_moves);
             this.Controls.Add(this.lbl_pieces);
             this.Controls.Add(this.bt_new_game);
             this.Controls.Add(this.bt_play);
@@ -146,7 +146,7 @@
         private System.Windows.Forms.Button bt_play;
         private System.Windows.Forms.Button bt_new_game;
         private System.Windows.Forms.Label lbl_pieces;
-        private System.Windows.Forms.Label lbl_mouves;
+        private System.Windows.Forms.Label lbl_moves;
     }
 }
 

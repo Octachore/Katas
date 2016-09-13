@@ -67,24 +67,24 @@ namespace DraughtsPlayer.Logic
 
         public string CurrentBoardRepresentation => CurrentBoard.Print("_");
 
-        public List<Piece> CurrentWhitePieces => CurrentBoard.WhitePieces().Where(p => CurrentBoard.GetPossibleMoves(p).Any()).ToList();
+        public List<Piece> CurrentWhitePieces => CurrentBoard.GetWhitePieces().Where(p => CurrentBoard.GetPossibleMoves(p).Any()).ToList();
 
-        public List<Piece> CurrentBlackPieces => CurrentBoard.BlackPieces().Where(p => CurrentBoard.GetPossibleMoves(p).Any()).ToList();
+        public List<Piece> CurrentBlackPieces => CurrentBoard.GetBlackPieces().Where(p => CurrentBoard.GetPossibleMoves(p).Any()).ToList();
 
-        public BindingList<Mouve> MouvesHistory { get; }
+        public BindingList<Move> MovesHistory { get; }
 
         public Piece SelectedWhitePiece { get; set; }
 
-        public List<Mouve> PossibleMouves => SelectedWhitePiece == null ? new List<Mouve>() : CurrentBoard.GetPossibleMoves(SelectedWhitePiece).ToList();
+        public List<Move> PossibleMoves => SelectedWhitePiece == null ? new List<Move>() : CurrentBoard.GetPossibleMoves(SelectedWhitePiece).ToList();
 
         public GameService()
         {
-            MouvesHistory = new BindingList<Mouve>();
+            MovesHistory = new BindingList<Move>();
         }
 
         public void StartNewGame()
         {
-            MouvesHistory.Clear();
+            MovesHistory.Clear();
             CurrentBoard = new Board();
             CurrentBoard.Add(WhitePieces);
             CurrentBoard.Add(BlackPieces);
@@ -94,22 +94,22 @@ namespace DraughtsPlayer.Logic
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
             => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 
-        public void PlayRound(Mouve mouve)
+        public void PlayRound(Move move)
         {
-            Guard.Requires(mouve != null, new ArgumentNullException(nameof(mouve)));
+            Guard.Requires(move != null, new ArgumentNullException(nameof(move)));
 
-            if (mouve is TakingMouve)
+            if (move is TakingMove)
             {
-                IEnumerable<Mouve> mouves = _bot.PlayTakingMouve((Piece)mouve.Origin, (Piece)mouve.Target);
-                foreach (Mouve m in mouves)
+                IEnumerable<Move> moves = _bot.PlayTakingMove((Piece)move.Origin, (Piece)move.Target);
+                foreach (Move m in moves)
                 {
-                    MouvesHistory.Add(m);
+                    MovesHistory.Add(m);
                 }
             }
             else
             {
-                SelectedWhitePiece.Square = new Square(mouve.Target.X, mouve.Target.Y);
-                MouvesHistory.Add(mouve);
+                SelectedWhitePiece.Square = new Square(move.Target.X, move.Target.Y);
+                MovesHistory.Add(move);
             }
         }
 
@@ -117,11 +117,11 @@ namespace DraughtsPlayer.Logic
 
         public void PlayBotRound()
         {
-            IEnumerable<Mouve> mouves = _bot.PlayTurn(Color.Black);
+            IEnumerable<Move> moves = _bot.PlayTurn(Color.Black);
 
-            foreach (Mouve mouve in mouves)
+            foreach (Move move in moves)
             {
-                MouvesHistory.Add(mouve);
+                MovesHistory.Add(move);
             }
         }
     }
