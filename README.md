@@ -35,3 +35,23 @@ Solve a sudoku grid :)
 ## Roman calculator
 
 Handle the addition of two roman numbers, **without converting to int**.
+
+## Paint filler
+
+Mimic the Paint filler tool. Fill a continuous shape of same colour with another.
+
+Filling the 0 square with "colour" 2 :
+
+```
+111111111111            111111111111
+111100011111            111122211111
+111100011111    -->     111122211111
+111100011111            111122211111
+111111111111            111111111111
+```
+
+
+## Draughts (or *checkers*)
+
+Make a bot that can play draughts (international rules on a 10 x 10 board).
+

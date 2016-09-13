@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using static System.Math;
 
 namespace Core.Utils
@@ -14,10 +15,7 @@ namespace Core.Utils
         /// <param name="a">The potential multiple.</param>
         /// <param name="b">The other <see cref="int"/>.</param>
         /// <returns>The check result.</returns>
-        public static bool IsMultipleOf(this int a, int b)
-        {
-            return b.IsDividerOf(a);
-        }
+        public static bool IsMultipleOf(this int a, int b) => b.IsDividerOf(a);
 
         /// <summary>
         /// Checks if an <see cref="int"/> is a divider of another.
@@ -27,8 +25,8 @@ namespace Core.Utils
         /// <returns>The check result.</returns>
         public static bool IsDividerOf(this int a, int b)
         {
-            if (a == 0 && b == 0) return true;
-            if (a == 0 || b == 0) return false;
+            if ((a == 0) && (b == 0)) return true;
+            if ((a == 0) || (b == 0)) return false;
             return b % a == 0;
         }
 
@@ -57,12 +55,15 @@ namespace Core.Utils
         /// </summary>
         /// <param name="integers">The input.</param>
         /// <returns>The primes.</returns>
-        public static IEnumerable<int> GetPrimes(this IEnumerable<int> integers)
-        {
-            foreach (var integer in integers)
-            {
-                if (integer.IsPrime()) yield return integer;
-            }
-        }
+        public static IEnumerable<int> GetPrimes(this IEnumerable<int> integers) => integers.Where(integer => integer.IsPrime());
+
+        /// <summary>
+        /// Checks if an <see cref="int"/> in a range.
+        /// </summary>
+        /// <param name="argument">The <see cref="int"/> to test.</param>
+        /// <param name="lowerBound">The lower (inclusive) limit.</param>
+        /// <param name="upperBound">the upper (inclusive) limit.</param>
+        /// <returns></returns>
+        public static bool In(this int argument, int lowerBound, int upperBound) => (argument >= lowerBound) && (argument <= upperBound);
     }
 }
