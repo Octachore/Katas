@@ -4,9 +4,11 @@ namespace Core.Katas.Draughts.Exceptions
 {
     public class OccupiedSquareException : Exception
     {
-        public OccupiedSquareException(string message) : base(message)
+        public IPosition Position { get; set; }
+
+        public OccupiedSquareException(string message, IPosition position) : base(message)
         {
-            
+            Position = position;
         }
     }
 }

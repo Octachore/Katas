@@ -50,10 +50,11 @@
             // 
             // lb_history
             // 
+            this.lb_history.Font = new System.Drawing.Font("Consolas", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lb_history.FormattingEnabled = true;
             this.lb_history.Location = new System.Drawing.Point(218, 12);
             this.lb_history.Name = "lb_history";
-            this.lb_history.Size = new System.Drawing.Size(152, 199);
+            this.lb_history.Size = new System.Drawing.Size(231, 199);
             this.lb_history.TabIndex = 1;
             // 
             // cb_pieces
@@ -120,7 +121,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(387, 281);
+            this.ClientSize = new System.Drawing.Size(461, 281);
             this.Controls.Add(this.lbl_mouves);
             this.Controls.Add(this.lbl_pieces);
             this.Controls.Add(this.bt_new_game);

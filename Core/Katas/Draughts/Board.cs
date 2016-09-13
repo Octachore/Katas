@@ -50,7 +50,7 @@ namespace Core.Katas.Draughts
         /// </summary>
         /// <param name="piece">The piece to consider.</param>
         /// <returns>The possible destinations.</returns>
-        public IEnumerable<Mouve> GetPossibleSimpleMoves(Piece piece) => piece.ForwardSquares().Where(IsFree).Select(s => new Mouve(piece.Square, s, MouveType.Simple));
+        public IEnumerable<Mouve> GetPossibleSimpleMoves(Piece piece) => piece.ForwardSquares().Where(IsFree).Select(s => new SimpleMouve(piece, s, piece.Color));
 
         public IEnumerable<Mouve> GetPossibleMoves(Piece piece) => GetPossibleSimpleMoves(piece).Union(GetPossibleTakingsMouves(piece));
 
@@ -63,15 +63,16 @@ namespace Core.Katas.Draughts
         /// <returns>The position of the pieces the considered piece can take.</returns>
         public IEnumerable<Mouve> GetPossibleTakingsMouves(Piece piece)
             => piece.ForwardSquares().Union(piece.BackwardSquares()).Where(square => SquareContainsPiece(square, ~piece.Color) && IsFree(piece.Over(square)))
-                .Select(s => new Mouve(piece.Square, s, MouveType.Taking));
+                .Select(s => Pieces.FirstOrDefault(p => p.Square == s))
+                .Select(p => new TakingMouve(piece, p, piece.Color));
 
-        public void Take(Piece attacker, IPosition target)
+        public void Take(Piece attacker, Piece target)
         {
-            Guard.Requires(attacker.AdjacentDiagonalTo(target), new InvalidMoveException("The attacker must be adjacent diagonal to target."));
-            Guard.Requires(Pieces.Contains(attacker), new PieceNotOnBoardException("The attacker must be on the board."));
-            Guard.Requires(Pieces.Contains(target), new PieceNotOnBoardException("The target must be on the board."));
-            Guard.Requires(SquareContainsPiece(target, ~attacker.Color), new FriendlyAttackException("The target must be of the opposite color."));
-            Guard.Requires(() => IsFree(attacker.Over(target)), new OccupiedSquareException("The destination must be empty."));
+            Guard.Requires(attacker.AdjacentDiagonalTo(target), new InvalidMoveException("The attacker must be adjacent diagonal to target.", attacker, target));
+            Guard.Requires(Pieces.Contains(attacker), new PieceNotOnBoardException("The attacker must be on the board.", attacker));
+            Guard.Requires(Pieces.Contains(target), new PieceNotOnBoardException("The target must be on the board.", target));
+            Guard.Requires(SquareContainsPiece(target, ~attacker.Color), new FriendlyAttackException("The target must be of the opposite color.", attacker, target));
+            Guard.Requires(() => IsFree(attacker.Over(target)), new OccupiedSquareException("The destination must be empty.", target));
 
             Pieces.RemoveAll(p => (p.X == target.X) && (p.Y == target.Y));
             attacker.Square = attacker.Over(target);

@@ -83,7 +83,7 @@ namespace DraughtsPlayer
 
         private void RegisterBindings()
         {
-            lb_history.DataBindings.Add("DataSource", _gameService, "StateHistory");
+            lb_history.DataBindings.Add("DataSource", _gameService, "MouvesHistory");
             tb_board.DataBindings.Add("Text", _gameService, "CurrentBoardRepresentation");
             cb_pieces.DataBindings.Add("DataSource", _gameService, "CurrentWhitePieces");
             cb_pieces.DataBindings.Add("SelectedItem", _gameService, "SelectedWhitePiece");

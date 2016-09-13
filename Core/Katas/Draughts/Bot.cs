@@ -13,39 +13,56 @@ namespace Core.Katas.Draughts
         }
 
         public Board Board { get; }
-        public void PlayTurn(Color color)
+
+        /// <summary>
+        /// Plays a turn.
+        /// </summary>
+        /// <param name="color">The (bot) player color.</param>
+        /// <returns>The played mouve.</returns>
+        public IEnumerable<Mouve> PlayTurn(Color color)
         {
             List<Piece> pieces = Board.Pieces.GetPiecesOfColor(color).ToList();
-            List<Piece> enemies = Board.Pieces.GetPiecesOfColor(~color).ToList();
+            ////IEnumerable<Piece> enemies = Board.Pieces.GetPiecesOfColor(~color);
             List<Piece> attackers = GetAttackers(pieces).ToList();
             List<Piece> movers = GetMovablePieces(pieces).ToList();
 
-            if (attackers.Any())
-            {
-                Attack(attackers, enemies);
-            }
-            else
-            {
-                Move(movers);
-            }
+            return attackers.Any() ? PlayTakingMouve(attackers) : PlaySimpleMove(movers);
         }
 
-        private void Move(List<Piece> pieces)
+        private IEnumerable<Mouve> PlaySimpleMove(ICollection<Piece> pieces)
         {
             Piece piece = pieces.PickRandom();
-            piece.Square = PickDestination(piece);
+            Square origin = piece.Square;
+
+            IPosition position = PickDestination(piece);
+            piece.Square = new Square(position.X, position.Y);
+
+            yield return new SimpleMouve(origin, piece, piece.Color);
         }
 
-        private Square PickDestination(Piece piece) => Board.GetPossibleSimpleMoves(piece).ToList().PickRandom().Target;
+        private IPosition PickDestination(Piece piece) => Board.GetPossibleSimpleMoves(piece).ToList().PickRandom().Target;
 
-        private void Attack(List<Piece> attackers, List<Piece> enemies)
+        private IEnumerable<Mouve> PlayTakingMouve(ICollection<Piece> attackers)
         {
             Piece attacker = attackers.PickRandom(); // TODO: add logic (i.e. pick the attacker that can take the more enemies
-            while (Board.GetPossibleTakingsMouves(attacker).Any())
-            {
-                Piece target = PickTarget(attacker);
-                Board.Take(attacker, target);
-            }
+
+            return PlayTakingMouve(attacker);
+        }
+
+        private IEnumerable<Mouve> PlayTakingMouve(Piece attacker)
+        {
+            var mouves = new List<Mouve>();
+
+            Piece target = PickTarget(attacker);
+            Piece origin = attacker.Clone();
+
+            Board.Take(attacker, target);
+
+            mouves.Add(new TakingMouve(origin, target, attacker.Color));
+
+            if (Board.GetPossibleTakingsMouves(attacker).Any()) mouves.AddRange(PlayTakingMouve(attacker));
+
+            return mouves;
         }
 
         private Piece PickTarget(Piece attacker) => Board.GetPossibleTakingsMouves(attacker).Select(m => new Piece(m.Target.X, m.Target.Y, ~attacker.Color)).ToList().PickRandom();

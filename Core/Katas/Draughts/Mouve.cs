@@ -1,20 +1,24 @@
-﻿namespace Core.Katas.Draughts
+﻿using System.Linq;
+
+namespace Core.Katas.Draughts
 {
-    public class Mouve
+    public abstract class Mouve
     {
-        public Square Origin { get; set; }
+        public IPosition Origin { get; set; }
 
-        public Square Target { get; set; }
+        public IPosition Target { get; set; }
 
-        public MouveType Type { get; set; }
+        public Color Color { get; set; }
 
-        public Mouve(Square origin, Square target, MouveType type)
+        protected abstract string Type { get; }
+
+        protected Mouve(IPosition origin, IPosition target, Color color)
         {
             Origin = origin;
             Target = target;
-            Type = type;
+            Color = color;
         }
 
-        public override string ToString() => $"{Origin} --> {Target} ({Type})";
+        public override string ToString() => $"{Color.ToString().First()} {Origin.X}|{Origin.Y} --> {Target.X}|{Target.Y} ({Type})";
     }
 }

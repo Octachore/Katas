@@ -66,10 +66,11 @@ namespace DraughtsPlayer.Logic
 
         public string CurrentBoardRepresentation => CurrentBoard.Print("_");
 
-        public List<Piece> CurrentWhitePieces => CurrentBoard.WhitePieces();
-        public List<Piece> CurrentBlackPieces => CurrentBoard.BlackPieces();
+        public List<Piece> CurrentWhitePieces => CurrentBoard.WhitePieces().Where(p=> CurrentBoard.GetPossibleMoves(p).Any()).ToList();
 
-        public BindingList<BoardTransition> StateHistory { get; }
+        public List<Piece> CurrentBlackPieces => CurrentBoard.BlackPieces().Where(p => CurrentBoard.GetPossibleMoves(p).Any()).ToList();
+
+        public BindingList<Mouve> MouvesHistory { get; }
 
         public Piece SelectedWhitePiece { get; set; }
 
@@ -77,12 +78,12 @@ namespace DraughtsPlayer.Logic
 
         public GameService()
         {
-            StateHistory = new BindingList<BoardTransition>();
+            MouvesHistory = new BindingList<Mouve>();
         }
 
         public void StartNewGame()
         {
-            StateHistory.Clear();
+            MouvesHistory.Clear();
             CurrentBoard = new Board();
             CurrentBoard.Add(WhitePieces);
             CurrentBoard.Add(BlackPieces);
@@ -97,20 +98,29 @@ namespace DraughtsPlayer.Logic
             Board initialBoard = CurrentBoard.Clone();
             string message = $"W : {mouve}";
 
-            if (mouve.Type == MouveType.Taking)
+            if (mouve is TakingMouve)
             {
-                CurrentBoard.Take(SelectedWhitePiece, mouve.Target);
+                ////IEnumerable<Mouve> mouves = CurrentBoard.Take(SelectedWhitePiece, mouve.Target);
+                CurrentBoard.Take(SelectedWhitePiece, (Piece)mouve.Target);
             }
             else
             {
-                SelectedWhitePiece.Square = mouve.Target;
+                SelectedWhitePiece.Square = new Square(mouve.Target.X, mouve.Target.Y);
             }
 
-            StateHistory.Add(new BoardTransition(initialBoard, CurrentBoard, message));
+            MouvesHistory.Add(mouve);
         }
 
         public bool CanAct(Piece piece) => (piece != null) && CurrentBoard.GetPossibleMoves(piece).Any();
 
-        public void PlayBotRound() => _bot.PlayTurn(Color.Black);
+        public void PlayBotRound()
+        {
+            IEnumerable<Mouve> mouves = _bot.PlayTurn(Color.Black);
+
+            foreach (Mouve mouve in mouves)
+            {
+                MouvesHistory.Add(mouve);
+            }
+        }
     }
 }

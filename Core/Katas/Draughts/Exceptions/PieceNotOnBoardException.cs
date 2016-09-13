@@ -4,9 +4,11 @@ namespace Core.Katas.Draughts.Exceptions
 {
     public class PieceNotOnBoardException : Exception
     {
-        public PieceNotOnBoardException(string message) : base(message)
+        public Piece Piece { get; set; }
+
+        public PieceNotOnBoardException(string message, Piece piece) : base(message)
         {
-            
+            Piece = piece;
         }
     }
 }
